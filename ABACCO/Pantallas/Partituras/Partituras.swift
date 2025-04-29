@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Partituras: View {
     
-    @StateObject var partituraViewModel: PartituraViewModel = PartituraViewModel()
+    @StateObject var partituraViewModel: PartituraViewModel
     
     var body: some View {
         
@@ -18,5 +18,5 @@ struct Partituras: View {
 }
 
 #Preview {
-    Partituras()
+    Partituras(partituraViewModel: PartituraViewModel())
 }

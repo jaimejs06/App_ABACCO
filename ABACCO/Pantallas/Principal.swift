@@ -14,7 +14,9 @@ struct Principal: View {
     //Esperamos recibir una instancia de AuthenticationViewModel
     @ObservedObject var authenticationViewModel: AuthenticationViewModel
     
-    @StateObject var usuarioViewModel: UsuarioViewModel
+    @ObservedObject var partituraViewModel: PartituraViewModel
+    
+    @ObservedObject var usuarioViewModel: UsuarioViewModel
     
     var body: some View {
         NavigationStack {
@@ -50,12 +52,13 @@ struct Principal: View {
                         
                         if isAdmin() {
                             Spacer()
-                            Insertar(destino: AnyView(AgregarPartitura()))
+                            Insertar(destino: AnyView(AgregarPartitura(partituraViewModel: partituraViewModel)
+                                .background(.backgroundApp)))
                         }
                     }
                     //Vista de scroll de las partituras
                     HStack {
-                        Partituras()
+                        Partituras(partituraViewModel: partituraViewModel)
                     }
                     
                     Spacer()
@@ -133,5 +136,5 @@ struct MenuSuperior: View {
 
 
 #Preview {
-    Principal(authenticationViewModel: AuthenticationViewModel(), usuarioViewModel: UsuarioViewModel())
+    Principal(authenticationViewModel: AuthenticationViewModel(), partituraViewModel: PartituraViewModel(), usuarioViewModel: UsuarioViewModel())
 }

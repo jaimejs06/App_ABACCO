@@ -34,5 +34,16 @@ final class PartituraViewModel: ObservableObject {
         }
     }
     
+    func crearPartitura(partitura: Partitura) {
+        partituraRepository.crearPartitura(partitura: partitura) { [weak self]  result in
+            switch result {
+            case .success(let partitura):
+                print("Partitura añadida \(partitura.titulo)")
+            case .failure(let error):
+                self?.messageError = error.localizedDescription
+            }
+        }
+    }
+    
     
 }
