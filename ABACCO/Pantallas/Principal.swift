@@ -22,7 +22,6 @@ struct Principal: View {
                 VStack {
                     
                     MenuSuperior(showMenu: $showMenu)
-                    MenuSuperior(showMenu: $showMenu)
                     
                     HStack {
                         Text("NOTICIAS")
@@ -36,6 +35,7 @@ struct Principal: View {
                             Insertar(destino: AnyView(AgregarNoticia()))
                         }
                     }
+                    //Vista de scroll de las noticias
                     HStack {
                         Noticias4(usuarioViewModel: usuarioViewModel)
                     }
@@ -53,6 +53,7 @@ struct Principal: View {
                             Insertar(destino: AnyView(AgregarPartitura()))
                         }
                     }
+                    //Vista de scroll de las partituras
                     HStack {
                         Partituras()
                     }
