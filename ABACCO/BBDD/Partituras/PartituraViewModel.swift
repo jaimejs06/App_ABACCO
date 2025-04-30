@@ -45,5 +45,9 @@ final class PartituraViewModel: ObservableObject {
         }
     }
     
+    func borrarPartitura(partitura: Partitura) {
+        partituraRepository.borrarPartitura(partitura: partitura)
+    }
+    
     
 }

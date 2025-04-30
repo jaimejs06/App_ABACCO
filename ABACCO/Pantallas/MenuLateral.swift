@@ -9,20 +9,21 @@ import SwiftUI
 
 struct MenuLateral: View {
     
-    @StateObject var usuarioViewModel: UsuarioViewModel
+    @ObservedObject var usuarioViewModel: UsuarioViewModel
     @ObservedObject var authenticationViewModel: AuthenticationViewModel
+    @ObservedObject var partituraViewModel: PartituraViewModel
     
     var body: some View {
         
         ZStack {
             VStack {
-                Profile(usuarioViewModel: usuarioViewModel, authenticationViewModel: authenticationViewModel)
-                //Opcion(titulo: "Noticias", view: Noticias4(usuarioViewModel: usuarioViewModel), icon: "newspaper")
-                Opcion(titulo: "Eventos", view: Miembros(), icon: "calendar")
+                PerfilItem(usuarioViewModel: usuarioViewModel, authenticationViewModel: authenticationViewModel)
+                Opcion(titulo: "Eventos", view: Eventos(), icon: "calendar")
+                Opcion(titulo: "Partituras", view: ScrollVerticalPartituras(partituraViewModel: partituraViewModel, usuarioViewModel: usuarioViewModel, authenticationViewModel: authenticationViewModel), icon: "paperclip")
                 Opcion(titulo: "Miembros", view: Miembros(), icon: "person.3.fill")
                 Divider()
-                Opcion(titulo: "Configuración", view: Miembros(), icon: "gear")
-                Opcion(titulo: "Info", view: Miembros(), icon: "info.circle")
+                Opcion(titulo: "Configuración", view: Configuracion(), icon: "gear")
+                Opcion(titulo: "Info", view: Informacion(), icon: "info.circle")
                 
                 Spacer()
                 
@@ -108,17 +109,17 @@ struct RowViewItem: View {
 }
 
 //Estructura para la parte de la Foto + Nombre del usuario
-struct Profile: View {
+struct PerfilItem: View {
     
     @ObservedObject var usuarioViewModel: UsuarioViewModel
     @ObservedObject var authenticationViewModel: AuthenticationViewModel    
-    @State private var nombreUsuario: String = " " //Almacenamos el nombre de usuario
+    @State private var nombreUsuario: String = "" //Almacenamos el nombre de usuario
     
     var body: some View {
         
         VStack {
             HStack {
-                NavigationLink (destination: Miembros()){
+                NavigationLink (destination: Perfil()){
                     Image("defaultProfile")
                         .resizable()
                         .frame(width: 60, height: 60)
@@ -160,5 +161,5 @@ struct Profile: View {
 
 
 #Preview {
-    MenuLateral(usuarioViewModel: UsuarioViewModel(), authenticationViewModel: AuthenticationViewModel())
+    MenuLateral(usuarioViewModel: UsuarioViewModel(), authenticationViewModel: AuthenticationViewModel(), partituraViewModel: PartituraViewModel())
 }

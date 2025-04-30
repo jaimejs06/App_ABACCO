@@ -13,18 +13,19 @@ struct Principal: View {
     @State private var showMenu = false
     //Esperamos recibir una instancia de AuthenticationViewModel
     @ObservedObject var authenticationViewModel: AuthenticationViewModel
-    
+
     @ObservedObject var partituraViewModel: PartituraViewModel
-    
     @ObservedObject var usuarioViewModel: UsuarioViewModel
     
     var body: some View {
+        
         NavigationStack {
             ZStack {
                 VStack {
                     
                     MenuSuperior(showMenu: $showMenu)
                     
+                    //Seccion de noticias
                     HStack {
                         Text("NOTICIAS")
                             .bold()
@@ -42,6 +43,7 @@ struct Principal: View {
                         Noticias4(usuarioViewModel: usuarioViewModel)
                     }
                     
+                    //Seccion de partituras
                     HStack {
                         Text("PARTITURAS")
                             .bold()
@@ -61,6 +63,24 @@ struct Principal: View {
                         Partituras(partituraViewModel: partituraViewModel)
                     }
                     
+                    //Seccion de eventos
+                    HStack {
+                        Text("EVENTOS")
+                            .bold()
+                            .font(.system(size: 30))
+                            .padding(.leading, 100)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        
+                        if isAdmin() {
+                            Spacer()
+                            Insertar(destino: AnyView(AgregarEvento()))
+                        }
+                    }
+                    //Vista de lista de los eventos
+                    HStack {
+                        Eventos()
+                    }
+                    
                     Spacer()
                 }
                 .background(.backgroundApp)
@@ -72,7 +92,7 @@ struct Principal: View {
                 
                 // Si hemos pulsado el botón se abre el menú
                 if showMenu {
-                    MenuLateral(usuarioViewModel: usuarioViewModel, authenticationViewModel: authenticationViewModel)
+                    MenuLateral(usuarioViewModel: usuarioViewModel, authenticationViewModel: authenticationViewModel, partituraViewModel: partituraViewModel)
                         .transition(.move(edge: .leading))
                         .onTapGesture {
                             withAnimation {

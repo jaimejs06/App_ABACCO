@@ -11,26 +11,43 @@ struct PartituraTarjeta: View {
     
     let partitura: Partitura
     
+    @State var anchura:Int
+    @State var altura:Int
+    
     var body: some View {
         VStack {
-            //Título de la noticia
-            Text(partitura.titulo.uppercased())
-                .bold()
-                .font(.system(size: 22))
-                .padding(.bottom, 6)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .lineLimit(2)
-            //Rectangulo separador
-            Rectangle()
-                .fill(Color.black)
-                .frame(height: 2)
-                .opacity(0.3)
-            
-            //Hacemos que quede pegado arriba
-            Spacer()
+            //Hacemos que las tarjetas sean de tipo link, para que nos dirija hacia la URL
+            Link(destination: URL(string: partitura.url)!, label: {
+                
+                VStack{
+                    //Título de la partitura
+                    Text(partitura.titulo.uppercased())
+                        .bold()
+                        .font(.system(size: 22))
+                        .padding(.bottom, 3)
+                        .lineLimit(2)
+                        .foregroundColor(.black)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    
+                    Text(partitura.autor?.capitalized ?? "")
+                        .font(.system(size: 12))
+                        .padding(.bottom, 6)
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                        .foregroundColor(.black)
+                    
+                    //Linea separadora
+                    Rectangle()
+                        .fill(Color.black)
+                        .frame(height: 2)
+                        .opacity(0.3)
+                    
+                    //Hacemos que quede pegado arriba
+                    Spacer()
+                }
+            })
         }
         .padding()
-        .frame(width: 220, height: 190) //tamaño de la tarjeta
+        .frame(width: CGFloat(anchura), height: CGFloat(altura)) //tamaño de la tarjeta 220 190
         .background(cambiarColor())
         .cornerRadius(12)
         .shadow(radius: 3)
@@ -47,6 +64,4 @@ struct PartituraTarjeta: View {
     }
 }
 
-#Preview {
-    PartituraTarjeta(partitura: Partitura(id: "lknlkankd", url: "jskldl", titulo: "Concierto Oscar Navarro"))
-}
+

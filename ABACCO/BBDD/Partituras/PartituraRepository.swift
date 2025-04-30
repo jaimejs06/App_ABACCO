@@ -25,4 +25,8 @@ final class PartituraRepository {
     func crearPartitura(partitura: Partitura, completionBlock: @escaping (Result<Partitura, Error>) -> Void) {
         partituraDataSource.crearPartitura(partitura: partitura, completionBlock: completionBlock)
     }
+    
+    func borrarPartitura(partitura:Partitura){
+        partituraDataSource.borrarPartitura(partitura: partitura) 
+    }
 }

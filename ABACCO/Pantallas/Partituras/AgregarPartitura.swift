@@ -14,6 +14,7 @@ struct AgregarPartitura: View {
     
     @State var URL: String = ""
     @State var titulo: String = ""
+    @State var autor:String = ""
     @State var mostrarMensaje: Bool = false
     
     var body: some View {
@@ -38,10 +39,30 @@ struct AgregarPartitura: View {
                         .frame(height: 60)
                         .overlay(
                             RoundedRectangle(cornerRadius: 20) // Otro RoundedRectangle para el borde
-                                .stroke(.button, lineWidth: 0.5) // Aplicamos el borde negro
+                                .stroke(.button, lineWidth: 0.5) // Aplicamos el borde
                         )
                     
                     TextField("Introduce el título", text: $titulo)
+                        .padding(.horizontal, 20)
+                        .font(.title3)
+                    
+                }
+            }
+            .padding()
+            
+            //Panel para el autor
+            VStack{
+                ZStack{
+                    
+                    RoundedRectangle(cornerRadius: 20)
+                        .foregroundColor(.texfield)
+                        .frame(height: 60)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 20) // Otro RoundedRectangle para el borde
+                                .stroke(.button, lineWidth: 0.5) // Aplicamos el borde
+                        )
+                    
+                    TextField("Autor", text: $autor)
                         .padding(.horizontal, 20)
                         .font(.title3)
                     
@@ -58,7 +79,7 @@ struct AgregarPartitura: View {
                         .frame(height: 80)
                         .overlay(
                             RoundedRectangle(cornerRadius: 20) // Otro RoundedRectangle para el borde
-                                .stroke(.button, lineWidth: 0.5) // Aplicamos el borde negro
+                                .stroke(.button, lineWidth: 0.5) // Aplicamos el borde
                         )
                     
                     TextField("URL", text: $URL)
@@ -79,11 +100,12 @@ struct AgregarPartitura: View {
                     
                 } else {
                     
-                    partituraViewModel.crearPartitura(partitura: Partitura(url: URL, titulo: titulo))
+                    partituraViewModel.crearPartitura(partitura: Partitura(url: URL, titulo: titulo, autor: autor))
                     
                     //formateamos el TexField
                     URL = ""
                     titulo = ""
+                    autor = ""
                     mostrarMensaje = false
                 }
                 

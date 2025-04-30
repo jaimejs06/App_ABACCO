@@ -97,6 +97,7 @@ struct UsuarioView: View {
                 .padding(6)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .cornerRadius(10)
+                .listRowSeparator(.hidden)   //Quita la línea entre elementos
                 .listRowInsets(EdgeInsets()) //Elimina el padding interno de la celda
                 .background(Color("BackgroundApp"))
             }

@@ -12,6 +12,7 @@ struct Partitura: Decodable, Identifiable, Encodable {
     @DocumentID var id: String?
     let url:String
     let titulo:String
+    let autor:String?
 }
 
 final class PartituraDataSource {
@@ -37,7 +38,7 @@ final class PartituraDataSource {
             completionBlock(.success(partituras))
         }
     }
-    
+    //función para crear una nueva partitura
     func crearPartitura(partitura: Partitura, completionBlock: @escaping (Result<Partitura, Error>) -> Void){
         do {
             _ = try database.collection(coleccion).addDocument(from: partitura)
@@ -45,6 +46,15 @@ final class PartituraDataSource {
         } catch {
             completionBlock(.failure(error))
         }
+    }
+    //función para borrar una partitura
+    func borrarPartitura(partitura:Partitura){
+        
+        guard let documentId = partitura.id else {
+            return
+        }
+        database.collection(coleccion).document(documentId).delete()
+
     }
 }
 
