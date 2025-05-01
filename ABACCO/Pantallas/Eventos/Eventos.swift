@@ -10,7 +10,7 @@ import SwiftUI
 struct Eventos: View {
     var body: some View {
         
-        Text("En esta ventana podremos ver los eventos disponibles")
+        TarjetaEvento(evento: Evento(titulo: "Prueba", fecha: Date.now, categoria: "Actuacion", lugar: "Parada de autobús"))
     }
 }
 
