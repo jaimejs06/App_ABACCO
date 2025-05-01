@@ -92,11 +92,20 @@ struct NoticiaAutor: View {
             .frame(maxWidth: .infinity, alignment: .trailing)
             .padding(.bottom, 2)
             
-            Text(fecha, style: .date)
+            Text(formatearFecha(fecha))
                 .font(.system(size: 10))
                 .frame(maxWidth: .infinity, alignment: .trailing)
         }
         .padding(.bottom, 2)
+    }
+    //Función para cambiar la forma de la fecha
+    func formatearFecha(_ date: Date) -> String {
+        let nuevaFecha = DateFormatter()
+        
+        nuevaFecha.locale = Locale(identifier: "es_ES") //Cambiamos idioma a español
+        nuevaFecha.dateStyle = .medium //Cambiamos el formato a largo
+        
+        return nuevaFecha.string(from: date)
     }
 }
 
@@ -205,7 +214,7 @@ struct NoticiaComentarios: View {
                     
                     
                     if let fecha = comentario.fecha {
-                        Text(fecha, style: .date)
+                        Text(formatearFecha(fecha))
                             .font(.system(size: 10))
                             .frame(maxWidth: .infinity, alignment: .trailing)
                     }
@@ -215,6 +224,15 @@ struct NoticiaComentarios: View {
     }
     func obtenerUsuarioPorId(id: String) -> Usuario? {
         return usuarioViewModel.usuario.first(where: { $0.id == id })
+    }
+    //Función para cambiar la forma de la fecha
+    func formatearFecha(_ date: Date) -> String {
+        let nuevaFecha = DateFormatter()
+        
+        nuevaFecha.locale = Locale(identifier: "es_ES") //Cambiamos idioma a español
+        nuevaFecha.dateStyle = .medium //Cambiamos el formato a largo
+        
+        return nuevaFecha.string(from: date)
     }
 }
 

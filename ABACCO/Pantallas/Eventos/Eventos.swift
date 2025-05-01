@@ -7,13 +7,21 @@
 
 import SwiftUI
 
+//Esta vista es para mostrar las tarjetas de eventos en el menú principal, ya que
+//Como ya contiene un ScrollView No podemos utilizar la vista de ScrollMenuTarjetas
 struct Eventos: View {
+    
+    @ObservedObject var eventosViewModel: EventosViewModel
+    
     var body: some View {
-        
-        TarjetaEvento(evento: Evento(titulo: "Prueba", fecha: Date.now, categoria: "Actuacion", lugar: "Parada de autobús"))
+        VStack{
+            ForEach(eventosViewModel.eventos) { evento in
+                TarjetaEvento(evento: evento, eventosViewModel: eventosViewModel)
+            }
+        }
     }
 }
 
 #Preview {
-    Eventos()
+    Eventos(eventosViewModel: EventosViewModel())
 }

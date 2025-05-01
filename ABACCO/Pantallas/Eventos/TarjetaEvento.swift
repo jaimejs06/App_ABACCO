@@ -7,11 +7,29 @@
 
 import SwiftUI
 
+//enum para el estado de la asistencia
+enum EstadoAsistencia {
+    case ninguna
+    case asiste
+    case noAsiste
+}
+
+//Estructura base de tarjeta para los eventos
 struct TarjetaEvento: View {
     //iniciamos una variable del tipo evento
     var evento: Evento
     
+    let authenticationViewModel: AuthenticationViewModel = AuthenticationViewModel()
+    @ObservedObject var eventosViewModel: EventosViewModel
+    
+    //variable que almacena el estado
+    @State var estadoAsistencia: EstadoAsistencia = .ninguna
+    
     var body: some View {
+        
+        //Id del usuario registrado
+        let userID = authenticationViewModel.user?.uid ?? ""
+        
         VStack(spacing: 0) {
             
             //Título del evento
@@ -62,7 +80,9 @@ struct TarjetaEvento: View {
                         
                         //Botón para aceptar
                         Button {
-                            //Por implementar
+                            estadoAsistencia = .asiste
+                            eventosViewModel.actualizarAsistencia(eventoID: evento.id ?? "", userID: userID, asistencia: true)
+                            print("asiste")
                         } label: {
                             Image(systemName: "checkmark.circle.fill")
                                 .resizable()
@@ -70,16 +90,20 @@ struct TarjetaEvento: View {
                                 .frame(width: 28, height: 28)
                                 .foregroundColor(.green)
                                 .padding(.trailing, 10)
+                                .opacity(estadoAsistencia == .noAsiste ? 0.1 : 1.0)
                         }
                         //Botón para denegar
                         Button {
-                            //Por implementar
+                            estadoAsistencia = .noAsiste
+                            eventosViewModel.actualizarAsistencia(eventoID: evento.id ?? "", userID: userID, asistencia: false)
+                            print("no asiste")
                         } label: {
                             Image(systemName: "multiply.circle.fill")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 28, height: 28)
                                 .foregroundColor(.red)
+                                .opacity(estadoAsistencia == .asiste ? 0.1 : 1.0)
                         }
                     }
                     .padding()
@@ -89,10 +113,20 @@ struct TarjetaEvento: View {
             }
             .background(Color(.gray).opacity(0.1)).ignoresSafeArea()
         }
-        .frame(width: 310, height: 140) //tamaño de la tarjeta
+        .frame(width: 340, height: 140) //tamaño de la tarjeta
         .background(Color.white)
         .cornerRadius(12)
         .shadow(radius: 3)
+        .onAppear{ //Cargamos el estado de la asistencia del usuario logueado al mostrar la vista
+            if let asistentes = evento.asistentes, asistentes.contains(userID){
+                estadoAsistencia = .asiste
+            } else if let noAsistentes = evento.noAsistentes, noAsistentes.contains(userID){
+                estadoAsistencia = .noAsiste
+            } else {
+                estadoAsistencia = .ninguna
+            }
+        }
+        
     }
     
     //Función para cambiar la forma de la fecha
@@ -102,10 +136,10 @@ struct TarjetaEvento: View {
         nuevaFecha.locale = Locale(identifier: "es_ES") //Cambiamos idioma a español
         nuevaFecha.dateStyle = .full //Cambiamos el formato a largo
         
-        return nuevaFecha.string(from: date)
+        return nuevaFecha.string(from: date).capitalized
     }
 }
 
 #Preview {
-    TarjetaEvento(evento: Evento(id: "", titulo: "", fecha: Date.now, categoria: "", descripcion: "", asistentes: ["",""]))
+    TarjetaEvento(evento: Evento(id: "", titulo: "", fecha: Date.now, categoria: "", descripcion: "", asistentes: ["",""]), eventosViewModel: EventosViewModel())
 }

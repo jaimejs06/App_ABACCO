@@ -8,8 +8,7 @@
 import Foundation
 
 final class PartituraRepository {
-    @Published var partituras: [Partitura] = []
-    @Published var messageError: String?
+    
     private let partituraDataSource: PartituraDataSource
 
     

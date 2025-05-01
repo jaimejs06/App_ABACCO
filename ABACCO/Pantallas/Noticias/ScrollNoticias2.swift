@@ -17,8 +17,7 @@ struct ScrollNoticias2: View {
         VStack {
             //Scroll Horizontal
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 16) {
-                    
+                HStack {
                     //Mostramos una tarjeta para cada noticia
                     ForEach(noticiasViewModel.noticias) { noticia in
                         
@@ -38,12 +37,13 @@ struct ScrollNoticias2: View {
                         .buttonStyle(PlainButtonStyle()) //quitar diseño por defecto
                     }
                 }
-                .padding(4) //separacion de todos los bordes
-                .padding(.horizontal) //separacion lateral
+                .padding(2) //separacion de todos los bordes
+                .padding(.horizontal, 30) //separacion lateral
 
             }
+            
         }
-        .onAppear { //Cargamos las noticias y los usuarios cuando aparezca la vista
+        .task { //Cargamos las noticias y los usuarios cuando aparezca la vista
             noticiasViewModel.obtenerNoticias()
             usuarioViewModel.obtenerUsuario()
         }

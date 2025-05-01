@@ -58,37 +58,36 @@ struct ScrollVerticalPartituras: View {
             }
             
             //Lista de las partituras
-            List {
-                //Creamos una tarjeta por cada partitura que exista
-                ForEach(partiturasFiltradas) { partitura in
-                    //Comprobamos si el usuario es admin para mostrar la opción de eliminar
-                    if isAdmin() {
-                        PartituraTarjeta(partitura: partitura, anchura: 340, altura: 210 )
-                        .swipeActions(edge: .trailing) { //hacemos que se desplace hacia la izquierda
-                            Button(action: { //cuando desplazamos borramos la partitura
-                                partituraViewModel.borrarPartitura(partitura: partitura)
-                            }, label : {
-                                Label("Eliminar", systemImage:"trash.fill")
-                            })
-                            .tint(.red)
+            ScrollView {
+                
+                VStack {
+                    //Creamos una tarjeta por cada partitura que exista
+                    ForEach(partiturasFiltradas) { partitura in
+                        //Comprobamos si el usuario es admin para mostrar la opción de eliminar
+                        if isAdmin() {
+                            PartituraTarjeta(partitura: partitura, anchura: 340, altura: 210 )
+                                .padding(.bottom, 6)
+                                .swipeActions(edge: .trailing) { //hacemos que se desplace hacia la izquierda
+                                    Button(action: { //cuando desplazamos borramos la partitura
+                                        partituraViewModel.borrarPartitura(partitura: partitura)
+                                    }, label : {
+                                        Label("Eliminar", systemImage:"trash.fill")
+                                    })
+                                    .tint(.red)
+                                }
+                            
+                            
+                        } else {
+                            PartituraTarjeta(partitura: partitura, anchura: 340, altura: 210 )
+                                .padding(.bottom, 6)
+                            
                         }
-                        .listRowSeparator(.hidden)   //quita la línea entre elementos
-                        .frame(maxWidth: .infinity, alignment: .center) //centrado
-                        .listRowBackground(Color.clear) //cada celda transparente
-   
-                    } else {
-                        PartituraTarjeta(partitura: partitura, anchura: 340, altura: 210 )
-                            .listRowSeparator(.hidden)   //quita la línea entre elementos
-                            .frame(maxWidth: .infinity, alignment: .center) //centrado
-                            .listRowBackground(Color.clear) //cada celda transparente
                     }
                 }
+                .padding(.top, 6)
+                .frame(maxWidth: . infinity)
+                .ignoresSafeArea()
             }
-            .listStyle(PlainListStyle()) //utiliza un estilo de lista plano para eliminar el espaciado adicional
-            .padding(.horizontal, 20) //separacion lateral
-            .scrollContentBackground(.hidden) //oculta el fondo de la lista
-            .background(Color("BackgroundApp")) //otorgamos el mismo color de fondo
-            
         }
         .background(.backgroundApp)
         .navigationBarBackButtonHidden(true) //ocultamos flecha atrás por defecto

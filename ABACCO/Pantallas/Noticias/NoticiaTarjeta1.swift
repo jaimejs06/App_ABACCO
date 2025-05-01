@@ -21,7 +21,7 @@ struct NoticiaTarjeta1: View {
                 .font(.system(size: 26))
                 .padding(.bottom, 6)
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .lineLimit(2)
+                .lineLimit(1)
             
             //panel para el nombre e imagen del autor
             HStack {
@@ -40,7 +40,7 @@ struct NoticiaTarjeta1: View {
             .padding(.bottom, 2)
             
             //fecha de la publicacion de la noticia
-            Text(noticia.fecha, style: .date)
+            Text(formatearFecha(noticia.fecha))
                 .font(.system(size: 8))
                 .frame(maxWidth: .infinity, alignment: .trailing)
                 .padding(.bottom, 6)
@@ -57,6 +57,15 @@ struct NoticiaTarjeta1: View {
         .cornerRadius(12)
         .shadow(radius: 3)
         
+    }
+    //Función para cambiar la forma de la fecha
+    func formatearFecha(_ date: Date) -> String {
+        let nuevaFecha = DateFormatter()
+        
+        nuevaFecha.locale = Locale(identifier: "es_ES") //Cambiamos idioma a español
+        nuevaFecha.dateStyle = .medium //Cambiamos el formato a largo
+        
+        return nuevaFecha.string(from: date)
     }
 }
 

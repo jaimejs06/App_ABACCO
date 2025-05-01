@@ -9,8 +9,6 @@ import Foundation
 
 final class EventosRepository {
     
-    @Published var evento:[Evento] = []
-    @Published var messageError: String?
     private let eventoDataSource: EventosDataSource
     
     init(eventoDataSource: EventosDataSource = EventosDataSource()) {
@@ -19,6 +17,10 @@ final class EventosRepository {
     //función para obtener los eventos
     func obtenerEventos(completionBlock: @escaping (Result<[Evento], Error>) -> Void) {
         eventoDataSource.obtenerEventos(completionBlock: completionBlock)
+    }
+    
+    func actualizarAsistencia(eventoID: String, userID:String, asistencia:Bool) {
+        eventoDataSource.actualizarAsistencia(eventoID: eventoID, userID: userID, asistencia: asistencia)
     }
     
     

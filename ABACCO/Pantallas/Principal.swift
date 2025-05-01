@@ -13,9 +13,10 @@ struct Principal: View {
     @State private var showMenu = false
     //Esperamos recibir una instancia de AuthenticationViewModel
     @ObservedObject var authenticationViewModel: AuthenticationViewModel
-
     @ObservedObject var partituraViewModel: PartituraViewModel
     @ObservedObject var usuarioViewModel: UsuarioViewModel
+    
+    @StateObject var eventosViewModel = EventosViewModel()
     
     var body: some View {
         
@@ -24,64 +25,61 @@ struct Principal: View {
                 VStack {
                     
                     MenuSuperior(showMenu: $showMenu)
+                        .padding(.bottom, 2)
                     
-                    //Seccion de noticias
-                    HStack {
-                        Text("NOTICIAS")
-                            .bold()
-                            .font(.system(size: 30))
-                            .padding(.leading, 100)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                        
-                        if isAdmin() {
-                            Spacer()
-                            Insertar(destino: AnyView(AgregarNoticia()))
+                    ScrollView(showsIndicators: false) {
+                        //Seccion de noticias
+                        HStack {
+                            Text("NOTICIAS")
+                                .bold()
+                                .font(.system(size: 30))
+                                .padding(.leading, 100)
+                                .padding(.top, 12)
+                            
+                            if isAdmin() {
+                                Spacer()
+                                Insertar(destino: AnyView(AgregarNoticia()))
+                                    .padding(.top, 12)
+                            }
                         }
-                    }
-                    //Vista de scroll de las noticias
-                    HStack {
+                        
+                        //Vista de scroll de las noticias
                         Noticias4(usuarioViewModel: usuarioViewModel)
-                    }
-                    
-                    //Seccion de partituras
-                    HStack {
-                        Text("PARTITURAS")
-                            .bold()
-                            .font(.system(size: 30))
-                            .padding(.leading, 100)
-                            .padding(.bottom, 4)
-                            .frame(maxWidth: .infinity, alignment: .leading)
                         
-                        if isAdmin() {
-                            Spacer()
-                            Insertar(destino: AnyView(AgregarPartitura(partituraViewModel: partituraViewModel)
-                                .background(.backgroundApp)))
+                        //Seccion de partituras
+                        HStack {
+                            Text("PARTITURAS")
+                                .bold()
+                                .font(.system(size: 30))
+                                .padding(.leading, 100)
+                                .padding(.bottom, 4)
+                            
+                            if isAdmin() {
+                                Spacer()
+                                Insertar(destino: AnyView(AgregarPartitura(partituraViewModel: partituraViewModel)
+                                    .background(.backgroundApp)))
+                            }
                         }
-                    }
-                    //Vista de scroll de las partituras
-                    HStack {
+                        //Vista de scroll de las partituras
                         Partituras(partituraViewModel: partituraViewModel)
-                    }
-                    
-                    //Seccion de eventos
-                    HStack {
-                        Text("EVENTOS")
-                            .bold()
-                            .font(.system(size: 30))
-                            .padding(.leading, 100)
-                            .frame(maxWidth: .infinity, alignment: .leading)
                         
-                        if isAdmin() {
-                            Spacer()
-                            Insertar(destino: AnyView(AgregarEvento()))
+                        //Seccion de eventos
+                        HStack {
+                            Text("EVENTOS")
+                                .bold()
+                                .font(.system(size: 30))
+                                .padding(.leading, 100)
+                            
+                            if isAdmin() {
+                                Spacer()
+                                Insertar(destino: AnyView(AgregarEvento()))
+                            }
                         }
+                        //Vista de lista de los eventos
+                        Eventos(eventosViewModel: eventosViewModel)
+                        
+                        
                     }
-                    //Vista de lista de los eventos
-                    HStack {
-                        Eventos()
-                    }
-                    
-                    Spacer()
                 }
                 .background(.backgroundApp)
                 .onTapGesture {
@@ -89,10 +87,13 @@ struct Principal: View {
                         showMenu = false  // Cerramos el menú al tocar fuera
                     }
                 }
+                .task {
+                    eventosViewModel.obtenerEventos()
+                }
                 
                 // Si hemos pulsado el botón se abre el menú
                 if showMenu {
-                    MenuLateral(usuarioViewModel: usuarioViewModel, authenticationViewModel: authenticationViewModel, partituraViewModel: partituraViewModel)
+                    MenuLateral(usuarioViewModel: usuarioViewModel, authenticationViewModel: authenticationViewModel, partituraViewModel: partituraViewModel, eventosViewModel: eventosViewModel)
                         .transition(.move(edge: .leading))
                         .onTapGesture {
                             withAnimation {

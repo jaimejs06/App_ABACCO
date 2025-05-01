@@ -36,7 +36,10 @@ final class NoticiasDataSource {
     //método para obtener las noticias
     func obtenerNoticias(completionblock: @escaping (Result<[Noticia], Error>) -> Void){
         //llamamos a la coleccion noticias
-        database.addSnapshotListener { query, error in //actualiza en tiempo real
+        
+        database
+            .order(by: "fecha", descending: false) //ordenar por fecha, la más reciente es la más antigua ya que coge el valor de la fecha de la publicación
+            .addSnapshotListener { query, error in //actualiza en tiempo real
             if let error = error{
                 print("Error al obtener las noticias \(error.localizedDescription)")
                 completionblock(.failure(error))
