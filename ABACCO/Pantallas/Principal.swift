@@ -13,9 +13,9 @@ struct Principal: View {
     @State private var showMenu = false
     //Esperamos recibir una instancia de AuthenticationViewModel
     @ObservedObject var authenticationViewModel: AuthenticationViewModel
-    @ObservedObject var partituraViewModel: PartituraViewModel
-    @ObservedObject var usuarioViewModel: UsuarioViewModel
     
+    @StateObject var partituraViewModel: PartituraViewModel = PartituraViewModel()
+    @StateObject var usuarioViewModel: UsuarioViewModel = UsuarioViewModel()
     @StateObject var eventosViewModel = EventosViewModel()
     
     var body: some View {
@@ -33,7 +33,7 @@ struct Principal: View {
                             Text("NOTICIAS")
                                 .bold()
                                 .font(.system(size: 30))
-                                .padding(.leading, 100)
+                                .padding(.leading, 50)
                                 .padding(.top, 12)
                             
                             if isAdmin() {
@@ -51,7 +51,7 @@ struct Principal: View {
                             Text("PARTITURAS")
                                 .bold()
                                 .font(.system(size: 30))
-                                .padding(.leading, 100)
+                                .padding(.leading, 50)
                                 .padding(.bottom, 4)
                             
                             if isAdmin() {
@@ -68,7 +68,7 @@ struct Principal: View {
                             Text("EVENTOS")
                                 .bold()
                                 .font(.system(size: 30))
-                                .padding(.leading, 100)
+                                .padding(.leading, 50)
                             
                             if isAdmin() {
                                 Spacer()

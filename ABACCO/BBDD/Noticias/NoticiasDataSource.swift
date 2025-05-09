@@ -79,6 +79,7 @@ final class NoticiasDataSource {
     func obtenerComentarios (noticiaId: String, completionBlock: @escaping ([Comentario]) -> Void) {
         
         let comentarioREF = database.document(noticiaId).collection("comentarios") //Referencia de la sucolección comentarios, por su NoticiaId
+            .order(by: "fecha", descending: true)
         
         comentarioREF.getDocuments() { querySnapshot, error in
             if let error = error { //si no encuentra comentarios se devuelve una lista vacia

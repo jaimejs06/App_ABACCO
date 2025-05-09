@@ -171,8 +171,7 @@ struct NoticiaComentarios: View {
                         noticiasViewModel.agregarComentario(noticiaId: noticiaId, comentario: nuevoComentario)
                         
                         textoComentario = "" 
-                            
-                        
+                                
                     }
                 }) {
                     ZStack {
@@ -194,29 +193,32 @@ struct NoticiaComentarios: View {
             
             //Si hay comentarios, los mostramos
             if let comentarios = comentarios {
-                ForEach(comentarios, id: \.id) { comentario in
-                    VStack {
-                        
-                        if let usuario = obtenerUsuarioPorId(id: comentario.usuarioID ?? " ") {
-                            Text(usuario.nombre + " " + usuario.apellidos + ":")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .italic()
-                                .padding(.top, 5)
-                                .padding(.leading, 8)
+                ScrollView(showsIndicators: false) {
+                    ForEach(comentarios, id: \.id) { comentario in
+                        VStack {
+                            
+                            if let usuario = obtenerUsuarioPorId(id: comentario.usuarioID ?? " ") {
+                                Text(usuario.nombre + " " + usuario.apellidos + ":")
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .italic()
+                                    .padding(.top, 5)
+                                    .padding(.leading, 8)
                                 //.padding(.bottom, 1)
-                                .font(.system(size: 14))
+                                    .font(.system(size: 14))
+                            }
+                            
+                            if let comentarioTexto = comentario.mensaje {
+                                ComentarioTexto(texto: comentarioTexto)
+                            }
                         }
                         
-                        if let comentarioTexto = comentario.mensaje {
-                            ComentarioTexto(texto: comentarioTexto)
+                        
+                        if let fecha = comentario.fecha {
+                            Text(formatearFecha(fecha))
+                                .font(.system(size: 10))
+                                .frame(maxWidth: .infinity, alignment: .trailing)
+                                .padding(.trailing, 40)
                         }
-                    }
-                    
-                    
-                    if let fecha = comentario.fecha {
-                        Text(formatearFecha(fecha))
-                            .font(.system(size: 10))
-                            .frame(maxWidth: .infinity, alignment: .trailing)
                     }
                 }
             }

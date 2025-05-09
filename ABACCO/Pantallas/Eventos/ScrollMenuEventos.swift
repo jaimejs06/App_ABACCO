@@ -7,6 +7,12 @@
 
 import SwiftUI
 
+enum CategoriasEvento: String {
+    case todos = "todos"
+    case actuaciones = "actuacion"
+    case ensayos = "ensayo"
+}
+
 //Esta vista se muestra en el menu desplegable en el que podemos ver todos los eventos disponibles e interactuar con ellos
 struct ScrollMenuEventos: View {
     
@@ -14,7 +20,8 @@ struct ScrollMenuEventos: View {
     
     @ObservedObject var eventosViewModel:EventosViewModel
     
-    
+    @State private var categoriaSeleccionada: CategoriasEvento = .todos //por defecto aparecen todos
+
     var body: some View {
         VStack{
             //Título de la ventana
@@ -30,34 +37,37 @@ struct ScrollMenuEventos: View {
             //Botones
             HStack{
                 Button {
-                    //Por completar
+                    categoriaSeleccionada = .todos
                 } label: {
                     Text("Todos")
-                        .foregroundColor(.white)
+                        .foregroundColor(categoriaSeleccionada == .todos ? .button : .white)
+                        .bold()
                 }
-                .tint(.button)
+                .tint(categoriaSeleccionada == .todos ? .white : .button)
                 .controlSize(.regular)
                 .buttonStyle(.bordered)
                 .buttonBorderShape(.capsule)
                 
                 Button {
-                    //Por completar
+                    categoriaSeleccionada = .ensayos
                 } label: {
                     Text("Ensayos")
-                        .foregroundColor(.white)
+                        .foregroundColor(categoriaSeleccionada == .ensayos ? .button : .white)
+                        .bold()
                 }
-                .tint(.button)
+                .tint(categoriaSeleccionada == .ensayos ? .white : .button)
                 .controlSize(.regular)
                 .buttonStyle(.bordered)
                 .buttonBorderShape(.capsule)
                 
                 Button {
-                    //Por completar
+                    categoriaSeleccionada = .actuaciones
                 } label: {
                     Text("Actuaciones")
-                        .foregroundColor(.white)
+                        .foregroundColor(categoriaSeleccionada == .actuaciones ? .button : .white)
+                        .bold()
                 }
-                .tint(.button)
+                .tint(categoriaSeleccionada == .actuaciones ? .white : .button)
                 .controlSize(.regular)
                 .buttonStyle(.bordered)
                 .buttonBorderShape(.capsule)
@@ -67,9 +77,11 @@ struct ScrollMenuEventos: View {
             //lista para los eventos
             ScrollView {
                 VStack{
-                    ForEach(eventosViewModel.eventos) { evento in
-                        TarjetaEvento(evento: evento, eventosViewModel: eventosViewModel)
-                        
+                    ForEach(eventosFiltrados(categoria: categoriaSeleccionada)) { evento in
+                        NavigationLink(destination: EventosDetalles2(evento: evento)) {//EventosDetalle(evento: evento, eventosViewModel: eventosViewModel)) {
+                            TarjetaEvento(evento: evento, eventosViewModel: eventosViewModel)
+                        }
+                        .buttonStyle(PlainButtonStyle()) //quitar diseño por defecto
                     }
                     
                 }
@@ -93,6 +105,17 @@ struct ScrollMenuEventos: View {
                         .padding(.bottom, 1)
                 }
             }
+        }
+    }
+    //función para filtrar por categoria
+    func eventosFiltrados(categoria: CategoriasEvento) -> [Evento] {
+        switch categoria {
+        case .todos:
+            return eventosViewModel.eventos
+        case .ensayos:
+            return eventosViewModel.eventos.filter{ $0.categoria.lowercased() == "ensayo"}
+        case .actuaciones:
+            return eventosViewModel.eventos.filter{ $0.categoria.lowercased() == "actuacion"}
         }
     }
 }

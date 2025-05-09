@@ -30,14 +30,12 @@ struct ABACCOApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
     @StateObject var authenticationViewModel = AuthenticationViewModel()
-    @StateObject var usuarioViewModel = UsuarioViewModel()
-    @StateObject var partituraViewModel = PartituraViewModel()
-    
+
     var body: some Scene {
         WindowGroup {
             //si el usuario esta logeado mostramos la ventana principal
             if let _ = authenticationViewModel.user{
-                Principal(authenticationViewModel: authenticationViewModel, partituraViewModel: partituraViewModel, usuarioViewModel: usuarioViewModel)
+                Principal(authenticationViewModel: authenticationViewModel)
             }else{
                 //si no esta logeado mostramos la ventana de inicio de sesion
                 InicioSesion(authenticationViewModel: authenticationViewModel)

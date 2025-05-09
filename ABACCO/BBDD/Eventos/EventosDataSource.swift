@@ -16,6 +16,8 @@ struct Evento: Codable, Identifiable {
     var categoria:String //actuacion o ensayo
     var lugar:String? //lugar del evento
     var descripcion:String?
+    var ubicacion:GeoPoint?
+
     
     var asistentes:[String]? //lista de los ids de usuarios que asisten al evento
     var noAsistentes:[String]?

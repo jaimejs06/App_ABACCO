@@ -22,7 +22,7 @@ final class EventosViewModel: ObservableObject {
         eventosRepository.obtenerEventos { [weak self] result in
             switch result {
             case .success(let eventos):
-                print("Eventos obtenidos: \(eventos.count)")
+                //print("Eventos obtenidos: \(eventos.count)")
                 self?.eventos = eventos
             case .failure(let error):
                 print("Error al obtener eventos: \(error.localizedDescription)")
