@@ -8,11 +8,36 @@
 import SwiftUI
 
 struct ListaParticipantes: View {
+    
+    @Environment(\.dismiss) var dismiss
+    var evento:Evento
+    @ObservedObject var eventosViewModel: EventosViewModel
+    @ObservedObject var usuarioViewModel: UsuarioViewModel
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        //lista de asistentes
+        List(obtenerAsistentes()) { usuario in
+            HStack {
+                Image(usuario.imagenName ?? "defaultProfile")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 35, height: 35)
+                    .clipShape(Circle())
+                    .padding(.trailing, 8)
+                
+                Text(usuario.nombre + " " + usuario.apellidos)
+                    .font(.system(size: 18))
+                
+            }
+        }
+                
+    }
+    //funcion que obtiene los usuarios por el id guardado en el array de asistentes
+    func obtenerAsistentes() -> [Usuario] {
+        let asistentesIDs = evento.asistentes
+        let asistentes = usuarioViewModel.usuario.filter{ asistentesIDs?.contains($0.id ?? "") ?? false}
+        return asistentes
     }
 }
 
-#Preview {
-    ListaParticipantes()
-}
+

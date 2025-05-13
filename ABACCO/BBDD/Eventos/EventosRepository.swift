@@ -22,6 +22,9 @@ final class EventosRepository {
     func actualizarAsistencia(eventoID: String, userID:String, asistencia:Bool) {
         eventoDataSource.actualizarAsistencia(eventoID: eventoID, userID: userID, asistencia: asistencia)
     }
+    func comprobarAsistencia(eventoID: String, userID: String, completion: @escaping (EstadoAsistencia) -> Void) {
+        eventoDataSource.comprobarAsistencia(eventoID: eventoID, userID: userID, completion: completion)
+    }
     
     
 }

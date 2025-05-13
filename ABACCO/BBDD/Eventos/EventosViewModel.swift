@@ -35,5 +35,9 @@ final class EventosViewModel: ObservableObject {
         eventosRepository.actualizarAsistencia(eventoID: eventoID, userID: userID, asistencia: asistencia) 
     }
     
+    func comprobarAsistencia(eventoID: String, userID: String, completion: @escaping (EstadoAsistencia) -> Void) {
+        eventosRepository.comprobarAsistencia(eventoID: eventoID, userID: userID, completion: completion)
+    }
+    
     
 }

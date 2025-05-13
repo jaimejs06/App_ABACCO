@@ -54,5 +54,9 @@ final class UsuarioViewModel: ObservableObject{
             }
         }
     }
+    
+    func actualizarAdmin(usuarioID: String, isAdmin: Bool) {
+        usuarioRepository.actualizarAdmin(usuarioID: usuarioID, isAdmin: isAdmin)
+    }
 }
 

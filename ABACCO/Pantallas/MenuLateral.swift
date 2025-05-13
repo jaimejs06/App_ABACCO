@@ -19,9 +19,9 @@ struct MenuLateral: View {
         ZStack {
             VStack {
                 PerfilItem(usuarioViewModel: usuarioViewModel, authenticationViewModel: authenticationViewModel)
-                Opcion(titulo: "Eventos", view: ScrollMenuEventos(eventosViewModel: eventosViewModel), icon: "calendar")
+                Opcion(titulo: "Eventos", view: ScrollMenuEventos(eventosViewModel: eventosViewModel, authenticationViewModel: authenticationViewModel, usuarioViewModel: usuarioViewModel), icon: "calendar")
                 Opcion(titulo: "Partituras", view: ScrollVerticalPartituras(partituraViewModel: partituraViewModel, usuarioViewModel: usuarioViewModel, authenticationViewModel: authenticationViewModel), icon: "paperclip")
-                Opcion(titulo: "Miembros", view: Miembros(), icon: "person.3.fill")
+                Opcion(titulo: "Miembros", view: Miembros(usuarioViewModel: usuarioViewModel, authenticationViewModel: authenticationViewModel), icon: "person.3.fill")
                 Divider()
                 Opcion(titulo: "Configuración", view: Configuracion(), icon: "gear")
                 Opcion(titulo: "Info", view: Informacion(), icon: "info.circle")
@@ -159,8 +159,3 @@ struct PerfilItem: View {
     }
 }
 
-
-
-#Preview {
-    MenuLateral(usuarioViewModel: UsuarioViewModel(), authenticationViewModel: AuthenticationViewModel(), partituraViewModel: PartituraViewModel(), eventosViewModel: EventosViewModel())
-}

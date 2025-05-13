@@ -19,16 +19,10 @@ struct TarjetaEvento: View {
     //iniciamos una variable del tipo evento
     var evento: Evento
     
-    let authenticationViewModel: AuthenticationViewModel = AuthenticationViewModel()
+    @ObservedObject var authenticationViewModel: AuthenticationViewModel
     @ObservedObject var eventosViewModel: EventosViewModel
-    
-    //variable que almacena el estado
-    @State var estadoAsistencia: EstadoAsistencia = .ninguna
-    
-    var body: some View {
         
-        //Id del usuario registrado
-        let userID = authenticationViewModel.user?.uid ?? ""
+    var body: some View {
         
         VStack(spacing: 0) {
             
@@ -78,33 +72,7 @@ struct TarjetaEvento: View {
                         
                         Spacer()
                         
-                        //Botón para aceptar
-                        Button {
-                            estadoAsistencia = .asiste
-                            eventosViewModel.actualizarAsistencia(eventoID: evento.id ?? "", userID: userID, asistencia: true)
-                            print("asiste")
-                        } label: {
-                            Image(systemName: "checkmark.circle.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 28, height: 28)
-                                .foregroundColor(.green)
-                                .padding(.trailing, 10)
-                                .opacity(estadoAsistencia == .noAsiste ? 0.1 : 1.0)
-                        }
-                        //Botón para denegar
-                        Button {
-                            estadoAsistencia = .noAsiste
-                            eventosViewModel.actualizarAsistencia(eventoID: evento.id ?? "", userID: userID, asistencia: false)
-                            print("no asiste")
-                        } label: {
-                            Image(systemName: "multiply.circle.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 28, height: 28)
-                                .foregroundColor(.red)
-                                .opacity(estadoAsistencia == .asiste ? 0.1 : 1.0)
-                        }
+                        Botones(evento: evento, authenticationViewModel: authenticationViewModel, eventosViewModel: eventosViewModel)
                     }
                     .padding()
   
@@ -117,15 +85,7 @@ struct TarjetaEvento: View {
         .background(Color.white)
         .cornerRadius(12)
         .shadow(radius: 3)
-        .onAppear{ //Cargamos el estado de la asistencia del usuario logueado al mostrar la vista
-            if let asistentes = evento.asistentes, asistentes.contains(userID){
-                estadoAsistencia = .asiste
-            } else if let noAsistentes = evento.noAsistentes, noAsistentes.contains(userID){
-                estadoAsistencia = .noAsiste
-            } else {
-                estadoAsistencia = .ninguna
-            }
-        }
+        
         
     }
     
@@ -140,6 +100,60 @@ struct TarjetaEvento: View {
     }
 }
 
-#Preview {
-    TarjetaEvento(evento: Evento(id: "", titulo: "", fecha: Date.now, categoria: "", descripcion: "", asistentes: ["",""]), eventosViewModel: EventosViewModel())
+struct Botones:View {
+    
+    var evento: Evento
+    @ObservedObject var authenticationViewModel: AuthenticationViewModel
+    @ObservedObject var eventosViewModel: EventosViewModel
+    
+    //variable que almacena el estado
+    @State var estadoAsistencia: EstadoAsistencia = .ninguna
+    
+    var body: some View {
+    
+        //Id del usuario registrado
+        let userID = authenticationViewModel.user?.uid ?? ""
+        
+        HStack{
+            //Botón para aceptar
+            Button {
+                estadoAsistencia = .asiste
+                eventosViewModel.actualizarAsistencia(eventoID: evento.id ?? "", userID: userID, asistencia: true)
+                print("asiste")
+            } label: {
+                Image(systemName: "checkmark.circle.fill")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 28, height: 28)
+                    .foregroundColor(.green)
+                    .padding(.trailing, 10)
+                    .opacity(estadoAsistencia == .noAsiste ? 0.1 : 1.0)
+            }
+            //Botón para denegar
+            Button {
+                estadoAsistencia = .noAsiste
+                eventosViewModel.actualizarAsistencia(eventoID: evento.id ?? "", userID: userID, asistencia: false)
+                print("no asiste")
+            } label: {
+                Image(systemName: "multiply.circle.fill")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 28, height: 28)
+                    .foregroundColor(.red)
+                    .opacity(estadoAsistencia == .asiste ? 0.1 : 1.0)
+            }
+        }
+        .onAppear{
+            //Cargamos el estado de la asistencia del usuario logueado al mostrar la vista
+            if let asistentes = evento.asistentes, asistentes.contains(userID){
+                estadoAsistencia = .asiste
+            } else if let noAsistentes = evento.noAsistentes, noAsistentes.contains(userID){
+                estadoAsistencia = .noAsiste
+            } else {
+                estadoAsistencia = .ninguna
+            }
+        }
+    }
 }
+
+

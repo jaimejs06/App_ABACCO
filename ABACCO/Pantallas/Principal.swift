@@ -26,16 +26,17 @@ struct Principal: View {
                     
                     MenuSuperior(showMenu: $showMenu)
                         .padding(.bottom, 2)
-                    
+                    //Hacemos que la pantalla se deslizable
                     ScrollView(showsIndicators: false) {
                         //Seccion de noticias
                         HStack {
                             Text("NOTICIAS")
                                 .bold()
                                 .font(.system(size: 30))
-                                .padding(.leading, 50)
+                                .padding(.horizontal, 30)
                                 .padding(.top, 12)
                             
+                            //Si el usuario es administrador mostramos la opcion de insertar
                             if isAdmin() {
                                 Spacer()
                                 Insertar(destino: AnyView(AgregarNoticia()))
@@ -51,7 +52,7 @@ struct Principal: View {
                             Text("PARTITURAS")
                                 .bold()
                                 .font(.system(size: 30))
-                                .padding(.leading, 50)
+                                .padding(.horizontal, 30)
                                 .padding(.bottom, 4)
                             
                             if isAdmin() {
@@ -68,7 +69,7 @@ struct Principal: View {
                             Text("EVENTOS")
                                 .bold()
                                 .font(.system(size: 30))
-                                .padding(.leading, 50)
+                                .padding(.horizontal, 30)
                             
                             if isAdmin() {
                                 Spacer()
@@ -76,7 +77,7 @@ struct Principal: View {
                             }
                         }
                         //Vista de lista de los eventos
-                        Eventos(eventosViewModel: eventosViewModel)
+                        Eventos(eventosViewModel: eventosViewModel, authenticationViewModel: authenticationViewModel)
                         
                         
                     }
@@ -105,7 +106,7 @@ struct Principal: View {
         }
         .background(.backgroundApp)
     }
-    
+    //Función que comprueba si el usuario logueado es administrador
     func isAdmin() -> Bool {
         //obtenemos el usuario autenticado
         guard let userId = authenticationViewModel.user?.uid else {
@@ -120,12 +121,12 @@ struct Principal: View {
     }
 }
 
+//Botón para deslizar el menú lateral
 struct MenuSuperior: View {
     
     @Binding var showMenu: Bool
     
     var body: some View {
-
             VStack {
                 Button {
                     withAnimation {
@@ -149,13 +150,5 @@ struct MenuSuperior: View {
                     .frame(width: 100, height: 25)
             }
             .frame(maxWidth: .infinity, alignment: .center)
-            
-
     }
-}
-
-
-
-#Preview {
-    Principal(authenticationViewModel: AuthenticationViewModel(), partituraViewModel: PartituraViewModel(), usuarioViewModel: UsuarioViewModel())
 }

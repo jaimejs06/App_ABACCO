@@ -64,5 +64,29 @@ final class EventosDataSource {
             evento.updateData(["noAsistentes": FieldValue.arrayUnion([userID])])
         }
     }
+    //funcion para comprobar la asistencias de los usuarios
+    func comprobarAsistencia(eventoID: String, userID: String, completion: @escaping (EstadoAsistencia) -> Void) {
+        let evento = database.collection(coleccion).document(eventoID)
+        
+        //addSnapshotListener hace que se actualice en tiempo real el valor cada vez que cambia la BBDD
+        evento.addSnapshotListener { snapshot, error in
+            guard let datos = snapshot?.data(), error == nil else {
+                completion(.ninguna)
+                return
+            }
+            
+            let asistentes = datos["asistentes"] as? [String] ?? []
+            let noAsistentes = datos["noAsistentes"] as? [String] ?? []
+            
+            if asistentes.contains(userID) {
+                completion(.asiste)
+            } else if noAsistentes.contains(userID) {
+                completion(.noAsiste)
+            } else {
+                completion(.ninguna)
+            }
+            
+        }
+    }
 }
 

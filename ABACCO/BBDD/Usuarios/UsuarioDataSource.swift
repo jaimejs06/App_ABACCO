@@ -73,4 +73,17 @@ final class UsuarioDataSource{
         
     }
     
+    func actualizarAdmin(usuarioID: String, isAdmin: Bool) {
+        
+        let admin = database.document(usuarioID)
+        
+        admin.updateData(["isAdmin": isAdmin]) { error in
+            if let error = error {
+                print("Error al actualizar el rol: \(error.localizedDescription)")
+            } else {
+                print("Rol actualizado")
+            }
+        }
+    }
+    
 }

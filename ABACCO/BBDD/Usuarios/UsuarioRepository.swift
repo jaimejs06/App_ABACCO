@@ -25,4 +25,8 @@ final class UsuarioRepository{
         
         usuarioDataSource.insertarUsuario(usuario: usuario, userId: userId, completionBlock: completionBlock)
     }
+    
+    func actualizarAdmin(usuarioID: String, isAdmin: Bool) {
+        usuarioDataSource.actualizarAdmin(usuarioID: usuarioID, isAdmin: isAdmin)
+    }
 }

@@ -12,16 +12,16 @@ import SwiftUI
 struct Eventos: View {
     
     @ObservedObject var eventosViewModel: EventosViewModel
+    @ObservedObject var authenticationViewModel: AuthenticationViewModel
+
     
     var body: some View {
         VStack{
             ForEach(eventosViewModel.eventos) { evento in
-                TarjetaEvento(evento: evento, eventosViewModel: eventosViewModel)
+                TarjetaEvento(evento: evento, authenticationViewModel: authenticationViewModel, eventosViewModel: eventosViewModel)
             }
         }
     }
 }
 
-#Preview {
-    Eventos(eventosViewModel: EventosViewModel())
-}
+

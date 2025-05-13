@@ -19,6 +19,9 @@ struct ScrollMenuEventos: View {
     @Environment(\.dismiss) var dismiss
     
     @ObservedObject var eventosViewModel:EventosViewModel
+    @ObservedObject var authenticationViewModel: AuthenticationViewModel
+    @ObservedObject var usuarioViewModel: UsuarioViewModel
+
     
     @State private var categoriaSeleccionada: CategoriasEvento = .todos //por defecto aparecen todos
 
@@ -78,8 +81,9 @@ struct ScrollMenuEventos: View {
             ScrollView {
                 VStack{
                     ForEach(eventosFiltrados(categoria: categoriaSeleccionada)) { evento in
-                        NavigationLink(destination: EventosDetalles2(evento: evento)) {//EventosDetalle(evento: evento, eventosViewModel: eventosViewModel)) {
-                            TarjetaEvento(evento: evento, eventosViewModel: eventosViewModel)
+                        NavigationLink(destination: EventosDetalles(evento: evento, authenticationViewModel: authenticationViewModel, eventosViewModel: eventosViewModel, usuarioViewModel: usuarioViewModel)) {
+                            
+                            TarjetaEvento(evento: evento, authenticationViewModel: authenticationViewModel, eventosViewModel: eventosViewModel)
                         }
                         .buttonStyle(PlainButtonStyle()) //quitar diseño por defecto
                     }
@@ -106,6 +110,7 @@ struct ScrollMenuEventos: View {
                 }
             }
         }
+        
     }
     //función para filtrar por categoria
     func eventosFiltrados(categoria: CategoriasEvento) -> [Evento] {
@@ -120,6 +125,3 @@ struct ScrollMenuEventos: View {
     }
 }
 
-#Preview {
-    ScrollMenuEventos( eventosViewModel: EventosViewModel())
-}
