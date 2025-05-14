@@ -39,5 +39,20 @@ final class EventosViewModel: ObservableObject {
         eventosRepository.comprobarAsistencia(eventoID: eventoID, userID: userID, completion: completion)
     }
     
+    func insertarEvento(evento:Evento){
+        eventosRepository.insertarEvento(evento: evento) { [weak self] result in
+            DispatchQueue.main.async {
+                
+                switch result {
+                case .success:
+                    self?.obtenerEventos() //refrescamos la lista de eventos
+                case .failure(let error):
+                    self?.messageError = error.localizedDescription
+                    
+                }
+            }  
+        }
+    }
+    
     
 }

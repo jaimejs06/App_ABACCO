@@ -17,78 +17,93 @@ struct Detalles: View {
     var body: some View {
         
         //region a mostrar
-        let region: MapCameraPosition = .region(.init(center: .init(latitude: evento.ubicacion?.latitude ?? 0.0, longitude: evento.ubicacion?.longitude ?? 0.0), latitudinalMeters: 200, longitudinalMeters: 200))
-        
-        VStack{
-            
-            //Fecha del evento
-            HStack{
-                Image(systemName: "calendar")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 24, height: 24)
+        let region: MapCameraPosition = .region(.init(center: .init(latitude: evento.ubicacion?.latitude ?? 37.2372656, longitude: evento.ubicacion?.longitude ?? -5.1047332), latitudinalMeters: 200, longitudinalMeters: 200))
+        ScrollView(showsIndicators: false) {
+            VStack{
                 
-                Text(formatearFecha(evento.fecha))
-                    .font(.system(size: 18))
-                    .foregroundColor(.button)
-                    .lineLimit(1)
-                    .padding(.leading, 8)
-                Spacer()
-            }
-            
-            Divider()
-            
-            //Hora del evento
-            HStack {
-                Image(systemName: "clock")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 24, height: 24)
-                
-                Text(horaFecha(evento: evento))
-                    .font(.system(size: 18))
-                    .foregroundColor(.button)
-                    .lineLimit(1)
-                    .padding(.leading, 8)
-                Spacer()
-            }
-            
-            Divider()
-            
-            //Panel para la ubicación
-            VStack {
-                //lugar
+                //Fecha del evento
                 HStack{
-                    Image(systemName: "mappin.and.ellipse")
+                    Image(systemName: "calendar")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 24, height: 24)
                     
-                    Text(evento.lugar ?? "")
+                    Text(formatearFecha(evento.fecha))
                         .font(.system(size: 18))
-                        .lineLimit(1)
                         .foregroundColor(.button)
+                        .lineLimit(1)
                         .padding(.leading, 8)
                     Spacer()
                 }
+                
+                Divider()
+                
+                //Hora del evento
+                HStack {
+                    Image(systemName: "clock")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 24, height: 24)
+                    
+                    Text(horaFecha(evento: evento))
+                        .font(.system(size: 18))
+                        .foregroundColor(.button)
+                        .lineLimit(1)
+                        .padding(.leading, 8)
+                    Spacer()
+                }
+                
+                Divider()
+                
+                //Panel para la ubicación
+                VStack {
+                    //lugar
+                    HStack{
+                        Image(systemName: "mappin.and.ellipse")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 24, height: 24)
+                        
+                        Text(evento.lugar ?? "")
+                            .font(.system(size: 18))
+                            .lineLimit(1)
+                            .foregroundColor(.button)
+                            .padding(.leading, 8)
+                        Spacer()
+                    }
+                }
+                .padding(.bottom, 12)
+                
+                //Mapa
+                Map(initialPosition: region) {
+                    Marker(evento.titulo, coordinate: CLLocationCoordinate2D(latitude: evento.ubicacion?.latitude ?? 0.0, longitude: evento.ubicacion?.longitude ?? 0.0))
+                }
+                .mapStyle(.hybrid)
+                .frame(height: 220)
+                .cornerRadius(15)
+                
+                //Descripcion del evento
+                VStack {
+                    Text("Descripción")
+                        .bold()
+                        .foregroundColor(.button.opacity(0.9))
+                        .font(.system(size: 18))
+                        .padding(.bottom, 4)
+                    Text(evento.descripcion ?? "No existe descripción")
+                        .font(.system(size: 14))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                
+                .padding(.top, 10)
+                
+                
+                Spacer()
             }
-            .padding(.bottom, 12)
-            
-            //Mapa
-            Map(initialPosition: region) {
-                Marker(evento.titulo, coordinate: CLLocationCoordinate2D(latitude: evento.ubicacion?.latitude ?? 0.0, longitude: evento.ubicacion?.longitude ?? 0.0))
-            }
-            .mapStyle(.hybrid)
-            .frame(height: 220)
-            .cornerRadius(15)
-            
-            Spacer()
-            
         }
         .padding()
         .background(.backgroundApp)
         .cornerRadius(15)
-        .frame(height: 400)
+        .frame(height: 450)
         
         PanelInferior(evento: evento, authenticationViewModel: authenticationViewModel, eventosViewModel: eventosViewModel)
     }

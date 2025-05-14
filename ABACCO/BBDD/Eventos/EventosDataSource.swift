@@ -17,7 +17,6 @@ struct Evento: Codable, Identifiable {
     var lugar:String? //lugar del evento
     var descripcion:String?
     var ubicacion:GeoPoint?
-
     
     var asistentes:[String]? //lista de los ids de usuarios que asisten al evento
     var noAsistentes:[String]?
@@ -49,6 +48,26 @@ final class EventosDataSource {
                 completionBlock(.success(eventos))
             }
     }
+    
+    //función para insertar un evento
+    func insertarEvento(evento:Evento, completionBlock: @escaping (Result<Void, Error>) -> Void) {
+        do {
+            let _ = try database.collection(coleccion).addDocument(from: evento) { error in
+                if let error = error {
+                    print("Error al agregar el evento")
+                    completionBlock(.failure(error))
+                } else {
+                    print("Evento agregado correctamente")
+                    completionBlock(.success(()))
+                }
+                
+            }
+        } catch {
+            print("No se ha podido agregar el evento \(error.localizedDescription)")
+            completionBlock(.failure(error))
+        }
+    }
+    
     //función para insertar o borrar un user en el Array de asistentes
     func actualizarAsistencia(eventoID: String, userID:String, asistencia:Bool) {
         let evento = database.collection(coleccion).document(eventoID)

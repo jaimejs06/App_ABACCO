@@ -95,11 +95,11 @@ struct AgregarPartitura: View {
                 //Comprobamos que existen datos
                 if URL.isEmpty || titulo.isEmpty {
                     
-                    //mostramos mensjae de error
+                    //mostramos mensajae de error
                     mostrarMensaje = true
                     
                 } else {
-                    
+                    //Creamos la partitura
                     partituraViewModel.crearPartitura(partitura: Partitura(url: URL, titulo: titulo, autor: autor))
                     
                     //formateamos el TexField
@@ -133,6 +133,7 @@ struct AgregarPartitura: View {
                     .foregroundColor(.red)
                     .padding(.top, 8)
             }
+            
             Spacer()
         }
         .navigationBarBackButtonHidden(true) //ocultamos flecha atrás por defecto

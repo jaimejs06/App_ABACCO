@@ -38,6 +38,7 @@ final class PartituraDataSource {
                 completionBlock(.success(partituras))
         }
     }
+    
     //función para crear una nueva partitura
     func crearPartitura(partitura: Partitura, completionBlock: @escaping (Result<Partitura, Error>) -> Void){
         do {
@@ -47,6 +48,7 @@ final class PartituraDataSource {
             completionBlock(.failure(error))
         }
     }
+    
     //función para borrar una partitura
     func borrarPartitura(partitura:Partitura){
         
