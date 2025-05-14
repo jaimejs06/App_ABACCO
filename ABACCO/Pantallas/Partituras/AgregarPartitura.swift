@@ -17,6 +17,8 @@ struct AgregarPartitura: View {
     @State var autor:String = ""
     @State var mostrarMensaje: Bool = false
     
+    @State var mensajeExito:Bool = false
+    
     var body: some View {
         VStack{
             
@@ -92,22 +94,7 @@ struct AgregarPartitura: View {
             
             //Botón para insertar la Partitura en la BBDD
             Button {
-                //Comprobamos que existen datos
-                if URL.isEmpty || titulo.isEmpty {
-                    
-                    //mostramos mensajae de error
-                    mostrarMensaje = true
-                    
-                } else {
-                    //Creamos la partitura
-                    partituraViewModel.crearPartitura(partitura: Partitura(url: URL, titulo: titulo, autor: autor))
-                    
-                    //formateamos el TexField
-                    URL = ""
-                    titulo = ""
-                    autor = ""
-                    mostrarMensaje = false
-                }
+                guardar()
                 
             } label: {
                 Label("Crear link", systemImage: "link")
@@ -134,6 +121,16 @@ struct AgregarPartitura: View {
                     .padding(.top, 8)
             }
             
+            //mensaje de exito si se inserta la noticia
+            if mensajeExito {
+                Text("Noticia agregada")
+                    .bold()
+                    .foregroundColor(.green)
+                    .padding(.top, 8)
+                    .font(.system(size: 22))
+                    .padding(20)
+            }
+            
             Spacer()
         }
         .navigationBarBackButtonHidden(true) //ocultamos flecha atrás por defecto
@@ -149,7 +146,38 @@ struct AgregarPartitura: View {
                 }
             }
         }
-
+        
+    }
+    
+    func guardar() {
+        
+        //Comprobamos que existen datos
+        if URL.isEmpty || titulo.isEmpty {
+            //mostramos mensajae de error
+            mostrarMensaje = true
+        } else {
+            
+            //Creamos la partitura
+            partituraViewModel.crearPartitura(partitura: Partitura(url: URL, titulo: titulo, autor: autor))
+            
+            //aparece el mensaje de exito
+            withAnimation {
+                mensajeExito = true
+            }
+            
+            //Hacemos que desaparezca cuando pasen 2 segundos
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                withAnimation {
+                    mensajeExito = false
+                }
+            }
+            
+            //formateamos el TexField
+            URL = ""
+            titulo = ""
+            autor = ""
+            mostrarMensaje = false
+        }
     }
 }
 

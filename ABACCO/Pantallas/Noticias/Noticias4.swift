@@ -10,8 +10,8 @@ import SwiftUI
 //Estructura central donde llamamos a la vista de Scroll de Noticias
 struct Noticias4: View {
     
-    @StateObject var noticiasViewModel: NoticiasViewModel = NoticiasViewModel()
-    @StateObject var usuarioViewModel: UsuarioViewModel
+    @ObservedObject var noticiasViewModel: NoticiasViewModel
+    @ObservedObject var usuarioViewModel: UsuarioViewModel
     
     var body: some View {
         

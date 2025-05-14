@@ -24,4 +24,8 @@ final class NoticiasRepository {
     func agregarComentario(noticiaId: String, comentario: Comentario, completionBlock: @escaping (Result<Void, Error>) -> Void) {
         noticiasDataSource.agregarComentario(noticiaId: noticiaId, comentario: comentario, completionBlock: completionBlock)
     }
+    
+    func insertarNoticia(noticia:Noticia, completionBlock: @escaping (Result<Void, Error>) -> Void) {
+        noticiasDataSource.insertarNoticia(noticia: noticia, completionBlock: completionBlock)
+    }
 }

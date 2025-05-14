@@ -45,4 +45,17 @@ final class NoticiasViewModel: ObservableObject {
             
         }
     }
+    
+    func insertarNoticia(noticia:Noticia) {
+        noticiasRepository.insertarNoticia(noticia: noticia) { [weak self] result in
+            switch result {
+            case .success:
+                self?.obtenerNoticias() //refrescamos las noticia
+            case .failure(let error):
+                self?.messageError = error.localizedDescription
+                
+            }
+        }
+    }
+    
 }

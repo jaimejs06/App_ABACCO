@@ -115,6 +115,25 @@ final class NoticiasDataSource {
             completionBlock(.failure(error))
         }
     }
+    
+    func insertarNoticia(noticia:Noticia, completionBlock: @escaping (Result<Void, Error>) -> Void) {
+        do {
+            let _ = try database.addDocument(from: noticia) { error in
+                if let error = error {
+                    print("Error al agregar la noticia")
+                    completionBlock(.failure(error))
+                } else {
+                    print("Noticia agregada correctamente")
+                    completionBlock(.success(()))
+                }
+                
+            }
+        } catch {
+            print("No se ha podido agregar la noticia \(error.localizedDescription)")
+            completionBlock(.failure(error))
+        }
+        
+    }
 
 
 }

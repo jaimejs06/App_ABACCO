@@ -13,7 +13,7 @@ struct Principal: View {
     @State private var showMenu = false
     //Esperamos recibir una instancia de AuthenticationViewModel
     @ObservedObject var authenticationViewModel: AuthenticationViewModel
-    
+    @StateObject var noticiasViewModel: NoticiasViewModel = NoticiasViewModel()
     @StateObject var partituraViewModel: PartituraViewModel = PartituraViewModel()
     @StateObject var usuarioViewModel: UsuarioViewModel = UsuarioViewModel()
     @StateObject var eventosViewModel = EventosViewModel()
@@ -39,13 +39,13 @@ struct Principal: View {
                             //Si el usuario es administrador mostramos la opcion de insertar
                             if isAdmin() {
                                 Spacer()
-                                Insertar(destino: AnyView(AgregarNoticia()))
+                                Insertar(destino: AnyView(AgregarNoticia(noticiaViewModel: noticiasViewModel, authenticationViewModel: authenticationViewModel)))
                                     .padding(.top, 12)
                             }
                         }
                         
                         //Vista de scroll de las noticias
-                        Noticias4(usuarioViewModel: usuarioViewModel)
+                        Noticias4(noticiasViewModel: noticiasViewModel, usuarioViewModel: usuarioViewModel)
                         
                         //Seccion de partituras
                         HStack {

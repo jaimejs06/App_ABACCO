@@ -26,6 +26,7 @@ struct AgregarEvento: View {
     @State var ubicacion:GeoPoint = GeoPoint(latitude: 0, longitude: 0) //coordenadas a guardar en BBDD
     
     @State var mostrarMensaje:Bool = false //mensaje de errores
+    @State var mensajeExito:Bool = false // mensaje exito
     
     var body: some View {
         ScrollView(showsIndicators: false) {
@@ -80,6 +81,16 @@ struct AgregarEvento: View {
                 .buttonStyle(.bordered)
                 .buttonBorderShape(.capsule)
                 
+                //mensaje de exito si se inserta la noticia
+                if mensajeExito {
+                    Text("Evento agregado")
+                        .bold()
+                        .foregroundColor(.green)
+                        .padding(.top, 8)
+                        .font(.system(size: 22))
+                        .padding(20)
+                }
+                
                 Spacer()
                 
             }
@@ -113,6 +124,18 @@ struct AgregarEvento: View {
         } else {
             //insertamos en la BBDD
             eventosViewModel.insertarEvento(evento: Evento(titulo: titulo, fecha: fecha, categoria: categoria, lugar: lugar, descripcion: descripcion, ubicacion: ubicacion))
+            
+            //aparece el mensaje de exito
+            withAnimation {
+                mensajeExito = true
+            }
+            
+            //Hacemos que desaparezca cuando pasen 2 segundos
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                withAnimation {
+                    mensajeExito = false
+                }
+            }
             
             //Formateamos los valores una vez insertado
             titulo = ""
