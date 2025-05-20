@@ -8,6 +8,7 @@
 import Foundation
 
 import FirebaseFirestore
+import FirebaseStorage
 
 //Estructura que representa un usuario en la base de datos
 struct Usuario: Codable, Identifiable{
@@ -85,5 +86,24 @@ final class UsuarioDataSource{
             }
         }
     }
-    
+    //función para actualiar la imagen de perfil
+    func actualizarImagen(nombre: String, userId: String) {
+        database.document(userId).updateData(["imagenName": nombre]) { error in
+            if let error = error {
+                print("Error al actualizar el la imagen de perfil: \(error.localizedDescription)")
+            } else {
+                print("Imagen del perfil actualizada")
+            }
+        }
+    }
+    //función para actualizar el isntrumento
+    func actualizarInstrumento(instrumento:String, userId:String) {
+        database.document(userId).updateData(["instrumento": instrumento]) { error in
+            if let error = error {
+                print("Error al actualizar el instrumento: \(error.localizedDescription)")
+            } else {
+                print("Instrumento actualizado")
+            }
+        }
+    }
 }

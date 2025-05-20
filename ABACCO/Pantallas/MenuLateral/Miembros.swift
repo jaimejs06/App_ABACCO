@@ -59,12 +59,20 @@ struct UsuarioView: View {
             ForEach(usuarioViewModel.usuario){ usuario in
                 VStack {
                     HStack {
-                        //Imagen del usuario, pendiente por implementar
-                        Image(usuario.imagenName ?? "defaultProfile")
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 45, height: 45)
-                            .clipShape(Circle())
+                        //obtenemos el string de la imagen
+                        if let imagenName = usuario.imagenName, let uiImage = cargarImagenDesdeArchivo(nombre: imagenName) {
+                            Image(uiImage: uiImage)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 45, height: 45)
+                                .clipShape(Circle())
+                        } else { // si no mostramos la imagen por defecto
+                            Image("defaultProfile")
+                                .resizable()
+                                .frame(width: 45, height: 45)
+                                .clipShape(Circle())
+                        }
+                        
                         
                         Text(usuario.nombre + " " + usuario.apellidos)
                             .bold()

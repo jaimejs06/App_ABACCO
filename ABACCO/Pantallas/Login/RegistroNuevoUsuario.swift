@@ -247,9 +247,6 @@ struct EstructuraContraseña:View{
                 SecureField(texto, text: $contrasena)
                     .keyboardType(.default)
                     .padding(.horizontal, 20)
-                    .onChange(of: contrasena) { oldValue, newValue in
-                        print("El valor antiguo es \(oldValue) el nuevo valor es \(newValue)")
-                    }
                     .font(.title3)
             }
         }

@@ -103,7 +103,6 @@ struct AgregarNoticia: View {
                     .padding(20)
             }
             
-            
             Spacer()
         }
         .onAppear {

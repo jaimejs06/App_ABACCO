@@ -18,12 +18,23 @@ struct ListaParticipantes: View {
         //lista de asistentes
         List(obtenerAsistentes()) { usuario in
             HStack {
-                Image(usuario.imagenName ?? "defaultProfile")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 35, height: 35)
-                    .clipShape(Circle())
-                    .padding(.trailing, 8)
+                
+                //obtenemos el string de la imagen
+                if let imagenName = usuario.imagenName, let uiImage = cargarImagenDesdeArchivo(nombre: imagenName) {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 35, height: 35)
+                        .clipShape(Circle())
+                        .padding(.trailing, 8)
+                } else { // si no existe, mostramos la imagen por defecto
+                    Image("defaultProfile")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 35, height: 35)
+                        .clipShape(Circle())
+                        .padding(.trailing, 8)
+                }
                 
                 Text(usuario.nombre + " " + usuario.apellidos)
                     .font(.system(size: 18))

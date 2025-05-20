@@ -58,5 +58,13 @@ final class UsuarioViewModel: ObservableObject{
     func actualizarAdmin(usuarioID: String, isAdmin: Bool) {
         usuarioRepository.actualizarAdmin(usuarioID: usuarioID, isAdmin: isAdmin)
     }
+    
+    func actualizarImagen(nombre: String, userId: String) {
+        usuarioRepository.actualizarImagen(nombre: nombre, userId: userId)
+    }
+    
+    func actualizarInstrumento(instrumento:String, userId:String) {
+        usuarioRepository.actualizarInstrumento(instrumento: instrumento, userId: userId)
+    }
 }
 

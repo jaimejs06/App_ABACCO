@@ -53,6 +53,26 @@ final class EventosViewModel: ObservableObject {
             }  
         }
     }
+    //Funcion para obtener un resumen de los asistentes para las estadisticas
+    func obtenerResumenAsistencia(userId: String) -> ResumenAsistencia {
+        var resumen = ResumenAsistencia()
+        
+        for evento in eventos {
+            if evento.categoria == "ensayo" {
+                resumen.totalEnsayos += 1
+                if evento.asistentes?.contains(userId) ?? false {
+                    resumen.asistidosEnsayo += 1
+                }
+            } else if evento.categoria == "actuacion" {
+                resumen.totalActuaciones += 1
+                if evento.asistentes?.contains(userId) ?? false {
+                    resumen.asistidosActuacion += 1
+                }
+            }
+        }
+        
+        return resumen
+    }
     
     
 }

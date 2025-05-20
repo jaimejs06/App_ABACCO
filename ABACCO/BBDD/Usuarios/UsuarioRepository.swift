@@ -29,4 +29,12 @@ final class UsuarioRepository{
     func actualizarAdmin(usuarioID: String, isAdmin: Bool) {
         usuarioDataSource.actualizarAdmin(usuarioID: usuarioID, isAdmin: isAdmin)
     }
+    
+    func actualizarImagen(nombre: String, userId: String) {
+        usuarioDataSource.actualizarImagen(nombre: nombre, userId: userId)
+    }
+    
+    func actualizarInstrumento(instrumento:String, userId:String) {
+        usuarioDataSource.actualizarInstrumento(instrumento: instrumento, userId: userId)
+    }
 }

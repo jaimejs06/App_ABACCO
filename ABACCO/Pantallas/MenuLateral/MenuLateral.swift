@@ -18,7 +18,7 @@ struct MenuLateral: View {
         
         ZStack {
             VStack {
-                PerfilItem(usuarioViewModel: usuarioViewModel, authenticationViewModel: authenticationViewModel)
+                PerfilItem(usuarioViewModel: usuarioViewModel, authenticationViewModel: authenticationViewModel, eventosViewModel: eventosViewModel)
                 Opcion(titulo: "Eventos", view: ScrollMenuEventos(eventosViewModel: eventosViewModel, authenticationViewModel: authenticationViewModel, usuarioViewModel: usuarioViewModel), icon: "calendar")
                 Opcion(titulo: "Partituras", view: ScrollVerticalPartituras(partituraViewModel: partituraViewModel, usuarioViewModel: usuarioViewModel, authenticationViewModel: authenticationViewModel), icon: "paperclip")
                 Opcion(titulo: "Miembros", view: Miembros(usuarioViewModel: usuarioViewModel, authenticationViewModel: authenticationViewModel), icon: "person.3.fill")
@@ -111,20 +111,29 @@ struct RowViewItem: View {
 
 //Estructura para la parte de la Foto + Nombre del usuario
 struct PerfilItem: View {
-    
     @ObservedObject var usuarioViewModel: UsuarioViewModel
-    @ObservedObject var authenticationViewModel: AuthenticationViewModel    
+    @ObservedObject var authenticationViewModel: AuthenticationViewModel
+    @ObservedObject var eventosViewModel: EventosViewModel
     @State private var nombreUsuario: String = "" //Almacenamos el nombre de usuario
     
     var body: some View {
         
         VStack {
             HStack {
-                NavigationLink (destination: Perfil()){
-                    Image("defaultProfile")
-                        .resizable()
-                        .frame(width: 60, height: 60)
-                        .clipShape(Circle())
+                NavigationLink (destination: Perfil(usuarioViewModel: usuarioViewModel, authenticationViewModel: authenticationViewModel, eventosViewModel: eventosViewModel)){
+                    
+                    if let uiImage = cargarImagenDesdeArchivo(nombre: obtenerImagen()){
+                        //cargamos imagen guardada
+                        Image(uiImage: uiImage)
+                            .resizable()
+                            .frame(width: 60, height: 60)
+                            .clipShape(Circle())
+                    } else {
+                        Image("defaultProfile")
+                            .resizable()
+                            .frame(width: 60, height: 60)
+                            .clipShape(Circle())
+                    }
                 }
                 .foregroundColor(.black)
                 
@@ -135,9 +144,11 @@ struct PerfilItem: View {
                         
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
+                
                 Spacer()
             }
             .frame(maxWidth: .infinity)
+            
             Divider()
                 .padding(.bottom, 70)
                 .padding(.horizontal, 10)
@@ -155,6 +166,18 @@ struct PerfilItem: View {
             return "\(usuario.nombre) \(usuario.apellidos)"
         } else {
             return "Usuario no encontrado"
+        }
+    }
+    //Funcion para obtener la imagen del usuarioActual
+    func obtenerImagen() -> String {
+        guard let userId = authenticationViewModel.user?.uid else {
+            return "defaultProfile"
+        }
+        
+        if let usuario = usuarioViewModel.usuario.first(where: { $0.id == userId }) {
+            return "\(usuario.imagenName ?? "defaultProfile")"
+        } else {
+            return "defaultProfile"
         }
     }
 }
