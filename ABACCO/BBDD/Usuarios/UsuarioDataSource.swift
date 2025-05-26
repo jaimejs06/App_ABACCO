@@ -8,7 +8,7 @@
 import Foundation
 
 import FirebaseFirestore
-import FirebaseStorage
+import FirebaseAuth
 
 //Estructura que representa un usuario en la base de datos
 struct Usuario: Codable, Identifiable{
@@ -19,6 +19,7 @@ struct Usuario: Codable, Identifiable{
     var pais:String
     var ciudad:String
     var telefono:String
+    var fNacimiento:Date?
     var instrumento:String? //hacemos que el valor de instrumento sea opcional
     var imagenName:String?
     var isAdmin:Bool?
@@ -73,7 +74,7 @@ final class UsuarioDataSource{
         }
         
     }
-    
+    //Función para actualizar el campo de admin de un usuario
     func actualizarAdmin(usuarioID: String, isAdmin: Bool) {
         
         let admin = database.document(usuarioID)
@@ -106,4 +107,46 @@ final class UsuarioDataSource{
             }
         }
     }
+    //Función para actualizar el nombre y apellido de un usuario
+    func actualizarNombre(userId: String, nuevoNombre: String, nuevoApellido: String) {
+        
+        database.document(userId).updateData(["nombre": nuevoNombre, "apellidos": nuevoApellido]) { error in
+            if let error = error {
+                print("Error al actualizar el nombre: \(error.localizedDescription)")
+            } else {
+                print("Nombre actualizado")
+            }
+        }
+    }
+    //Función para actualiar el email
+    func actualizarEmail(userId: String, nuevoEmail: String) {
+        database.document(userId).updateData(["email": nuevoEmail]) { error in
+            if let error = error {
+                print("Error al actualizar el email: \(error.localizedDescription)")
+            } else {
+                print("Email actualizado")
+            }
+        }
+    }
+    
+    func actualizarFechaNacimiento(userID: String, fechaNacimiento: Date) {
+        database.document(userID).updateData(["fNacimiento": fechaNacimiento]) { error in
+            if let error = error {
+                print("Error al actualizar la fecha de nacimiento: \(error.localizedDescription)")
+            } else {
+                print("Fecha de nacimiento actualizada")
+            }
+        }
+    }
+    
+    func actualizarCiudad(userID: String, ciudad: String) {
+        database.document(userID).updateData(["ciudad": ciudad]) { error in
+            if let error = error {
+                print("Error al actualizar la ciudad: \(error.localizedDescription)")
+            } else {
+                print("Ciudad actualizada")
+            }
+        }
+    }
+    
 }

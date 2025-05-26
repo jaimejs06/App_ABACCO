@@ -66,5 +66,21 @@ final class UsuarioViewModel: ObservableObject{
     func actualizarInstrumento(instrumento:String, userId:String) {
         usuarioRepository.actualizarInstrumento(instrumento: instrumento, userId: userId)
     }
+    
+    func actualizarNombre(userId: String, nuevoNombre: String, nuevoApellido: String) {
+        usuarioRepository.actualizarNombre(userId: userId, nuevoNombre: nuevoNombre, nuevoApellido: nuevoApellido)
+    }
+    
+    func actualizarEmail(userId: String, nuevoEmail: String) {
+        usuarioRepository.actualizarEmail(userId: userId, nuevoEmail: nuevoEmail)
+    }
+    
+    func actualizarFechaNacimiento(userID: String, fechaNacimiento: Date) {
+        usuarioRepository.actualizarFechaNacimiento(userID: userID, fechaNacimiento: fechaNacimiento)
+    }
+    
+    func actualizarCiudad(userID: String, ciudad: String) {
+        usuarioRepository.actualizarCiudad(userID: userID, ciudad: ciudad)
+    }
 }
 

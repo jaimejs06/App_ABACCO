@@ -159,7 +159,7 @@ struct NoticiaComentarios: View {
                 
                 //panel para el emoticono de enviar
                 Button(action: {
-                    if let userId = authenticationViewModel.user?.uid{ //obtenemos el id del usuarioActual
+                    if let userId = authenticationViewModel.user?.uid { //obtenemos el id del usuarioActual
                         let nuevoComentario = Comentario(
                             id: nil,
                             mensaje: textoComentario,

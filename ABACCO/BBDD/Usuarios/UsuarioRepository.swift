@@ -37,4 +37,21 @@ final class UsuarioRepository{
     func actualizarInstrumento(instrumento:String, userId:String) {
         usuarioDataSource.actualizarInstrumento(instrumento: instrumento, userId: userId)
     }
+    
+    func actualizarNombre(userId: String, nuevoNombre: String, nuevoApellido: String) {
+        usuarioDataSource.actualizarNombre(userId: userId, nuevoNombre: nuevoNombre, nuevoApellido: nuevoApellido)
+    }
+    
+    func actualizarEmail(userId: String, nuevoEmail: String) {
+        usuarioDataSource.actualizarEmail(userId: userId, nuevoEmail: nuevoEmail)
+    }
+    
+    func actualizarFechaNacimiento(userID: String, fechaNacimiento: Date) {
+        usuarioDataSource.actualizarFechaNacimiento(userID: userID, fechaNacimiento: fechaNacimiento)
+    }
+    
+    func actualizarCiudad(userID: String, ciudad: String) {
+        usuarioDataSource.actualizarCiudad(userID: userID, ciudad: ciudad)
+    }
+    
 }

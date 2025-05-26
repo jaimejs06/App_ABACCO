@@ -12,23 +12,31 @@ final class AuthenticationViewModel: ObservableObject{
     @Published var user: User?
     @Published var messageError: String?
     
-    private let authenticacionRepository: AuthenticationRepository
+    private let authenticationRepository: AuthenticationRepository
     
     
-    init(authenticacionRepository: AuthenticationRepository = AuthenticationRepository()) {
-        self.authenticacionRepository = authenticacionRepository
+    init(authenticationRepository: AuthenticationRepository = AuthenticationRepository()) {
+        self.authenticationRepository = authenticationRepository
         //si hay un usuario logeado abre su sesión
         getCurrentUser()
     }
     
+    func cambiarCorreoUsuario(emailActual: String, contrasenaActual: String, nuevoCorreo: String, completionBlock: @escaping (Result<Void, Error>) -> Void) {
+        authenticationRepository.cambiarCorreoUsuario(emailActual: emailActual, contrasenaActual: contrasenaActual, nuevoCorreo: nuevoCorreo, completionblock: completionBlock)
+    }
+    
+    func cambiarContrasenaUsuario(emailActual: String, contrasenaActual: String, nuevaContrasena: String, completionBlock: @escaping (Result<Void, Error>) -> Void) {
+        authenticationRepository.cambiarContrasenaUsuario(emailActual: emailActual, contrasenaActual: contrasenaActual, nuevaContrasena: nuevaContrasena, completionBlock: completionBlock)
+    }
+    
     func getCurrentUser() {
-        self.user = authenticacionRepository.getCurrentUser()
+        self.user = authenticationRepository.getCurrentUser()
     }
     
     func createNewUser(email: String, password: String, completion: @escaping (Result<User, Error>) -> Void){
         
         //creamos el usuario y almacenamos la respuesta en el result
-        authenticacionRepository.createNewUser(email: email, password: password) { [weak self] result in
+        authenticationRepository.createNewUser(email: email, password: password) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let user):
@@ -47,7 +55,7 @@ final class AuthenticationViewModel: ObservableObject{
     func login(email: String, password: String){
         
         //creamos el usuario y almacenamos la respuesta en el result
-        authenticacionRepository.login(email: email, password: password) { [weak self] result in
+        authenticationRepository.login(email: email, password: password) { [weak self] result in
             
             //? hace que sea opcional
             switch result {
@@ -62,7 +70,7 @@ final class AuthenticationViewModel: ObservableObject{
     
     func logout(){
         do{
-            try authenticacionRepository.logout()
+            try authenticationRepository.logout()
             self.user = nil
             self.messageError = "" // Reinicia los mensajes
         }catch{

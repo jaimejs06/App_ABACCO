@@ -32,6 +32,14 @@ final class AuthenticationRepository{
         authenticacionFirebaseDatasourse.login(email: email, password: password, completionBlock: completionBlock )
     }
     
+    func cambiarCorreoUsuario(emailActual: String, contrasenaActual: String, nuevoCorreo: String, completionblock: @escaping (Result<Void, Error>) -> Void) {
+        authenticacionFirebaseDatasourse.cambiarCorreoUsuario(emailActual: emailActual, contrasenaActual: contrasenaActual, nuevoCorreo: nuevoCorreo, completionBlock: completionblock)
+    }
+    
+    func cambiarContrasenaUsuario(emailActual: String, contrasenaActual: String, nuevaContrasena: String, completionBlock: @escaping (Result<Void, Error>) -> Void) {
+        authenticacionFirebaseDatasourse.cambiarContrasenaUsuario(emailActual: emailActual, contrasenaActual: contrasenaActual, nuevaContrasena: nuevaContrasena, completionBlock: completionBlock)
+    }
+
     //Cerramos sesion
     func logout() throws{
         try authenticacionFirebaseDatasourse.logout()

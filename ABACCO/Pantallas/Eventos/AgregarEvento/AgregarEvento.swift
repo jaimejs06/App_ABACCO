@@ -62,13 +62,6 @@ struct AgregarEvento: View {
                 //Vista para el mapa
                 Mapa(ubiTemp: $ubiTemp, titulo: $titulo)
                 
-                if mostrarMensaje {
-                    Text("Te falta agregar algún dato")
-                        .bold()
-                        .foregroundColor(.red)
-                        .padding(.top, 8)
-                }
-                
                 //Boton para guardar el evento
                 Button {
                     guardar()
@@ -80,6 +73,13 @@ struct AgregarEvento: View {
                 .controlSize(.regular)
                 .buttonStyle(.bordered)
                 .buttonBorderShape(.capsule)
+                
+                if mostrarMensaje {
+                    Text("Te falta agregar algún dato")
+                        .bold()
+                        .foregroundColor(.red)
+                        .padding(.top, 8)
+                }
                 
                 //mensaje de exito si se inserta la noticia
                 if mensajeExito {

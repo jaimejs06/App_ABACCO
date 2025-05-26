@@ -22,29 +22,21 @@ struct MenuLateral: View {
                 Opcion(titulo: "Eventos", view: ScrollMenuEventos(eventosViewModel: eventosViewModel, authenticationViewModel: authenticationViewModel, usuarioViewModel: usuarioViewModel), icon: "calendar")
                 Opcion(titulo: "Partituras", view: ScrollVerticalPartituras(partituraViewModel: partituraViewModel, usuarioViewModel: usuarioViewModel, authenticationViewModel: authenticationViewModel), icon: "paperclip")
                 Opcion(titulo: "Miembros", view: Miembros(usuarioViewModel: usuarioViewModel, authenticationViewModel: authenticationViewModel), icon: "person.3.fill")
-                Divider()
-                Opcion(titulo: "Configuración", view: Configuracion(), icon: "gear")
+                
+                Rectangle()
+                    .frame(height: 1)
+                    .padding(.horizontal, 6)
+                    .padding(.bottom, 18)
+                
+                Opcion(titulo: "Configuración", view: Configuracion(usuarioViewModel: usuarioViewModel, authenticationViewModel: authenticationViewModel), icon: "gear")
                 Opcion(titulo: "Info", view: Informacion(), icon: "info.circle")
                 
                 Spacer()
                 
-                //Cerrar sesión
-                VStack {
-                    Button("CERRAR SESIÓN"){
-                        authenticationViewModel.logout()
-                    }
-                    .bold()
-                    .foregroundColor(.texfield)
-                    .font(.title2)
-                    .frame(width: 200, height: 50)
-                    
-                }
-                .frame(maxWidth: .infinity)
-                
             }
         }
         .padding()
-        .background(Color.button.opacity(0.97))
+        .background(Color.button.opacity(0.98))
         .frame(width: 350, height: 650) //Le damos anchura y altura
         .cornerRadius(20) //Bordes redondeados
         .task {
@@ -74,6 +66,7 @@ struct Opcion<window: View>: View {
             RowViewItem(icon: self.icon, titulo: self.titulo)
         }
         .foregroundColor(.black)
+        .padding(.bottom, 6)
     } //formateamos el color por defecto
 }
 
