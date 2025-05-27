@@ -45,7 +45,7 @@ struct Principal: View {
                         }
                         
                         //Vista de scroll de las noticias
-                        Noticias4(noticiasViewModel: noticiasViewModel, usuarioViewModel: usuarioViewModel)
+                        Noticias4(noticiasViewModel: noticiasViewModel, usuarioViewModel: usuarioViewModel, authenticationViewModel: authenticationViewModel)
                         
                         //Seccion de partituras
                         HStack {

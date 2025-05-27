@@ -12,10 +12,11 @@ struct Noticias4: View {
     
     @ObservedObject var noticiasViewModel: NoticiasViewModel
     @ObservedObject var usuarioViewModel: UsuarioViewModel
+    @ObservedObject var authenticationViewModel: AuthenticationViewModel
     
     var body: some View {
         
-        ScrollNoticias2(noticiasViewModel: noticiasViewModel, usuarioViewModel: usuarioViewModel)
+        ScrollNoticias2(noticiasViewModel: noticiasViewModel, usuarioViewModel: usuarioViewModel, authenticationViewModel: authenticationViewModel)
 
     }
 }

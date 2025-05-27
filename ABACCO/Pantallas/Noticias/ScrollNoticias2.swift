@@ -12,6 +12,10 @@ struct ScrollNoticias2: View {
     
     @ObservedObject var noticiasViewModel: NoticiasViewModel
     @ObservedObject var usuarioViewModel: UsuarioViewModel
+    @ObservedObject var authenticationViewModel: AuthenticationViewModel
+    
+    @State private var noticiaSeleccionada: Noticia? = nil
+    @State private var mostrarDialogoEliminar = false
     
     var body: some View {
         VStack {
@@ -33,6 +37,12 @@ struct ScrollNoticias2: View {
                         )) {
                             //Si no se selecciona se muestra el diseño de tarjetas en scroll horizontal
                             NoticiaTarjeta1(noticia: noticia, autor: autor)
+                                .onLongPressGesture{
+                                    if isAdmin() {
+                                        noticiaSeleccionada = noticia
+                                        mostrarDialogoEliminar = true
+                                    }
+                                }
                         }
                         .buttonStyle(PlainButtonStyle()) //quitar diseño por defecto
                     }
@@ -41,6 +51,14 @@ struct ScrollNoticias2: View {
                 .padding(.horizontal, 30) //separacion lateral
 
             }
+            .confirmationDialog("¿Deseas eliminar este evento?", isPresented: $mostrarDialogoEliminar, titleVisibility: .visible) {
+                Button("Eliminar", role: .destructive) {
+                    if let noticia = noticiaSeleccionada {
+                        noticiasViewModel.borrarNoticia(noticia: noticia)
+                    }
+                }
+                Button("Cancelar", role: .cancel) {}
+            }
             
         }
         .task { //Cargamos las noticias y los usuarios cuando aparezca la vista
@@ -48,8 +66,19 @@ struct ScrollNoticias2: View {
             usuarioViewModel.obtenerUsuario()
         }
     }
+    //Función que comprueba si el usuario logueado es administrador
+    func isAdmin() -> Bool {
+        //obtenemos el usuario autenticado
+        guard let userId = authenticationViewModel.user?.uid else {
+            return false
+        }
+        //vemos en la coleccion de usuarios si es admin
+        if let usuario = usuarioViewModel.usuario.first(where: { $0.id == userId }) {
+            return usuario.isAdmin ?? false
+        } else {
+            return false
+        }
+    }
 }
 
-#Preview {
-    ScrollNoticias2(noticiasViewModel: NoticiasViewModel(), usuarioViewModel: UsuarioViewModel())
-}
+
