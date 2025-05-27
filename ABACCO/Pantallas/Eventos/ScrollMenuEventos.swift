@@ -21,7 +21,9 @@ struct ScrollMenuEventos: View {
     @ObservedObject var eventosViewModel:EventosViewModel
     @ObservedObject var authenticationViewModel: AuthenticationViewModel
     @ObservedObject var usuarioViewModel: UsuarioViewModel
-
+    
+    @State private var eventoSeleccionado: Evento? = nil
+    @State private var mostrarDialogoEliminar = false
     
     @State private var categoriaSeleccionada: CategoriasEvento = .todos //por defecto aparecen todos
 
@@ -84,6 +86,12 @@ struct ScrollMenuEventos: View {
                         NavigationLink(destination: EventosDetalles(evento: evento, authenticationViewModel: authenticationViewModel, eventosViewModel: eventosViewModel, usuarioViewModel: usuarioViewModel)) {
                             
                             TarjetaEvento(evento: evento, authenticationViewModel: authenticationViewModel, eventosViewModel: eventosViewModel)
+                                .onLongPressGesture {
+                                    if isAdmin() {
+                                        eventoSeleccionado = evento
+                                        mostrarDialogoEliminar = true
+                                    }
+                                }
                         }
                         .buttonStyle(PlainButtonStyle()) //quitar diseño por defecto
                     }
@@ -93,8 +101,14 @@ struct ScrollMenuEventos: View {
                 .frame(maxWidth: .infinity)
                 .ignoresSafeArea()
             }
-            
-            
+            .confirmationDialog("¿Deseas eliminar este evento?", isPresented: $mostrarDialogoEliminar, titleVisibility: .visible) {
+                Button("Eliminar", role: .destructive) {
+                    if let evento = eventoSeleccionado {
+                        eventosViewModel.borrarEvento(evento: evento)
+                    }
+                }
+                Button("Cancelar", role: .cancel) {}
+            }
         }
         .background(.backgroundApp)
         .navigationBarBackButtonHidden(true) //ocultamos flecha atrás por defecto
@@ -121,6 +135,19 @@ struct ScrollMenuEventos: View {
             return eventosViewModel.eventos.filter{ $0.categoria.lowercased() == "ensayo"}
         case .actuaciones:
             return eventosViewModel.eventos.filter{ $0.categoria.lowercased() == "actuacion"}
+        }
+    }
+    //Función que comprueba si el usuario logueado es administrador
+    func isAdmin() -> Bool {
+        //obtenemos el usuario autenticado
+        guard let userId = authenticationViewModel.user?.uid else {
+            return false
+        }
+        //vemos en la coleccion de usuarios si es admin
+        if let usuario = usuarioViewModel.usuario.first(where: { $0.id == userId }) {
+            return usuario.isAdmin ?? false
+        } else {
+            return false
         }
     }
 }
