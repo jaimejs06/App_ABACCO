@@ -31,6 +31,8 @@ struct Comentario : Codable, Identifiable {
 final class NoticiasDataSource {
     
     private let database = Firestore.firestore().collection("noticias") //conexion de la BBDD y la coleccion
+    private let database2 = Firestore.firestore()
+    private let coleccion = "noticias"
     
     
     //método para obtener las noticias
@@ -133,6 +135,16 @@ final class NoticiasDataSource {
             completionBlock(.failure(error))
         }
         
+    }
+    
+    //función para borrar una noticia
+    func borrarNoticia(noticia:Noticia){
+        
+        guard let documentId = noticia.id else {
+            return
+        }
+        database2.collection(coleccion).document(documentId).delete()
+
     }
 
 

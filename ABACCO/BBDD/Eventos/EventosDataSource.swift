@@ -108,6 +108,16 @@ final class EventosDataSource {
         }
     }
     
+    //función para borrar un evento
+    func borrarEvento(evento:Evento){
+        
+        guard let documentId = evento.id else {
+            return
+        }
+        database.collection(coleccion).document(documentId).delete()
+
+    }
+    
     
 }
 

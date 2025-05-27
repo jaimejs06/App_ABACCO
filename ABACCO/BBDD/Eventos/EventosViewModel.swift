@@ -74,5 +74,8 @@ final class EventosViewModel: ObservableObject {
         return resumen
     }
     
-    
+    //función para borrar un evento
+    func borrarEvento(evento:Evento){
+        eventosRepository.borrarEvento(evento: evento)
+    }
 }

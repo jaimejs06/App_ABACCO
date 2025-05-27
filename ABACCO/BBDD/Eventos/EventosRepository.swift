@@ -31,6 +31,10 @@ final class EventosRepository {
     func insertarEvento(evento:Evento, completionBlock: @escaping (Result<Void, Error>) -> Void) {
         eventoDataSource.insertarEvento(evento: evento, completionBlock: completionBlock)
     }
+    //función para borrar un evento
+    func borrarEvento(evento:Evento){        
+        eventoDataSource.borrarEvento(evento: evento)
+    }
     
     
 }

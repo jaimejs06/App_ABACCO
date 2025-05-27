@@ -58,4 +58,9 @@ final class NoticiasViewModel: ObservableObject {
         }
     }
     
+    //función para borrar una noticia
+    func borrarNoticia(noticia:Noticia){
+        noticiasRepository.borrarNoticia(noticia: noticia)
+    }
+    
 }

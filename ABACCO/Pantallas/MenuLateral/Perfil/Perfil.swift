@@ -48,6 +48,7 @@ struct Perfil: View {
                     //cargamos imagen guardada
                     Image(uiImage: uiImage)
                         .resizable()
+                        .scaledToFill()
                         .frame(width: 80, height: 80)
                         .clipShape(Circle())
                         .onTapGesture {
@@ -58,6 +59,7 @@ struct Perfil: View {
                 } else {
                     Image("defaultProfile")
                         .resizable()
+                        .scaledToFill()
                         .frame(width: 80, height: 80)
                         .clipShape(Circle())
                         .onTapGesture {

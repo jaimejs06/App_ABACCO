@@ -28,4 +28,9 @@ final class NoticiasRepository {
     func insertarNoticia(noticia:Noticia, completionBlock: @escaping (Result<Void, Error>) -> Void) {
         noticiasDataSource.insertarNoticia(noticia: noticia, completionBlock: completionBlock)
     }
+    //función para borrar una noticia
+    func borrarNoticia(noticia:Noticia){
+        noticiasDataSource.borrarNoticia(noticia: noticia)
+    }
+    
 }
