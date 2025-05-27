@@ -36,9 +36,15 @@ struct TarjetaEstadisticasEnsayos: View {
        
         
         VStack {
-            Text("Ensayos")
-                .bold()
-                .padding(.bottom, 8)
+            HStack{
+                Image("music1")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 25, height: 25)
+                Text("Ensayos")
+                    .bold()
+                    .padding(.bottom, 8)
+            }
             
             HStack {
                 Text("\(porcentajeEnsayo)% asistencia")
@@ -52,7 +58,7 @@ struct TarjetaEstadisticasEnsayos: View {
             }
         }
         .padding()
-        .frame(width: 160, height: 100)
+        .frame(width: 165, height: 100)
         .background(
             RoundedRectangle(cornerRadius: 15)
                 .fill(.button).opacity(0.3)
@@ -78,9 +84,16 @@ struct TarjetaEstadisticasActuaciones: View {
         let porcentajeActuaciones = calcularPorcentaje(asistidos: resumen.asistidosActuacion, total: resumen.totalActuaciones)
         
         VStack {
-            Text("Actuaciones")
-                .bold()
-                .padding(.bottom, 8)
+            HStack{
+                Image("music2")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 25, height: 25)
+                
+                Text("Actuaciones")
+                    .bold()
+                    .padding(.bottom, 8)
+            }
             
             HStack {
                 Text("\(porcentajeActuaciones)% asistencia")
@@ -94,7 +107,7 @@ struct TarjetaEstadisticasActuaciones: View {
             }
         }
         .padding()
-        .frame(width: 160, height: 100)
+        .frame(width: 165, height: 100)
         .background(
             RoundedRectangle(cornerRadius: 15)
                 .fill(.button).opacity(0.3)
