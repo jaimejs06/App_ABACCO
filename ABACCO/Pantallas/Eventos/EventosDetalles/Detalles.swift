@@ -75,12 +75,27 @@ struct Detalles: View {
                 .padding(.bottom, 12)
                 
                 //Mapa
-                Map(initialPosition: region) {
-                    Marker(evento.titulo, coordinate: CLLocationCoordinate2D(latitude: evento.ubicacion?.latitude ?? 0.0, longitude: evento.ubicacion?.longitude ?? 0.0))
+                VStack {
+                    Map(initialPosition: region) {
+                        Marker(evento.titulo, coordinate: CLLocationCoordinate2D(latitude: evento.ubicacion?.latitude ?? 0.0, longitude: evento.ubicacion?.longitude ?? 0.0))
+                    }
+                    .mapStyle(.hybrid)
+                    .frame(height: 220)
+                    .cornerRadius(15)
+                    .padding(.bottom, 8)
+                    
+                    Button(action: abrirMapa) {
+                        HStack {
+                            Image(systemName: "location.fill")
+                            Text("Cómo llegar")
+                        }
+                        .foregroundColor(.white)
+                        .padding()
+                        .background(Color.button)
+                        //.frame(maxWidth: .infinity)
+                        .cornerRadius(15)
+                    }
                 }
-                .mapStyle(.hybrid)
-                .frame(height: 220)
-                .cornerRadius(15)
                 
                 //Descripcion del evento
                 VStack {
@@ -123,6 +138,13 @@ struct Detalles: View {
         let hora = DateFormatter()
         hora.dateFormat = "HH:mm"
         return hora.string(from: fecha)
+    }
+    //Abre la aplicacion del mapa en las coordenadas especificadas
+    func abrirMapa() {
+        let latitude = evento.ubicacion?.latitude ?? 37.23364246770224
+        let longitude = evento.ubicacion?.longitude ?? -5.0979836557080205
+        let url = URL(string: "http://maps.apple.com/?daddr=\(latitude),\(longitude)")!
+        UIApplication.shared.open(url)
     }
 }
 

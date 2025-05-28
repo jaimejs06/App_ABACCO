@@ -45,6 +45,7 @@ struct TarjetaEstadisticasEnsayos: View {
                     .bold()
                     .padding(.bottom, 8)
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
             
             HStack {
                 Text("\(porcentajeEnsayo)% asistencia")
@@ -89,11 +90,13 @@ struct TarjetaEstadisticasActuaciones: View {
                     .resizable()
                     .scaledToFill()
                     .frame(width: 25, height: 25)
+                    
                 
                 Text("Actuaciones")
                     .bold()
                     .padding(.bottom, 8)
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
             
             HStack {
                 Text("\(porcentajeActuaciones)% asistencia")
