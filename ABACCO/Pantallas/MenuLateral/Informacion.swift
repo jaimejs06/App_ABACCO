@@ -119,8 +119,7 @@ struct Informacion: View {
                                 Image("instagram")
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: 20, height: 20)
-                                    .padding(.trailing, 4)
+                                    .frame(width: 25, height: 25)
                                     .foregroundColor(.black)
                                     .background(Color.pink)
                                     .clipShape(Circle())
@@ -133,10 +132,10 @@ struct Informacion: View {
                                 Image("facebook")
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: 20, height: 20)
+                                    .frame(width: 25, height: 25)
                                     .foregroundColor(.black)
-                                    .padding(.trailing, 4)
                                     .clipShape(Circle())
+                                    .padding(.trailing, 2)
                                 Text("Facebook")
                                     .font(.system(size: 18))
                             }
@@ -146,15 +145,15 @@ struct Informacion: View {
                                 Image("youtube")
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: 20, height: 20)
+                                    .frame(width: 25, height: 25)
                                     .foregroundColor(.black)
-                                    .padding(.trailing, 4)
                                     .clipShape(Circle())
+                                    .padding(.trailing, 2)
                                 Text("Youtube")
                                     .font(.system(size: 18))
                             }
                         }
-                        .padding(8)
+                        .padding(2)
                     }
                     .padding(.horizontal, 20)
 
